@@ -1,4 +1,4 @@
-drunken-octo-tyrion
+Aineopintojen harjoitustyö: Tietokantasovellus
 ===================
 
-Aineopintojen harjoitustyö: Tietokantasovellus
+Keskustelu foorumi php:lla + postgreSQL.
