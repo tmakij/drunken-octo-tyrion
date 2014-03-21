@@ -1,21 +1,23 @@
 <?php
-include 'test_call.php';
+include 'common/header.php';
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
-        <title>
-            <?php
-            echo get_hello_upper();
-            ?>
-        </title>
-    </head>
-    <body>
-        <?php
-        for ($i = 0; $i < 100; $i++) {
-            echo get_hello_lower() . '<br>';
-        }
-        ?>
-    </body>
-</html>
+<a href="newmessage.php">Uusiviesti</a>
+<br>
+<br>
+<br>
+<div class="viestit">
+    <div class="viesti">
+        <a href="search.php">Tapaaminen</a>
+        <br>
+        <p>Viimeisin viesti 13:00 1.1.1000</p>
+        <p>Kirjoittaja: Matti Meikäläinen</p>
+    </div>
+    <div class="viesti">
+        <a href="search.php">Uusi foorumi</a>
+        <br>
+        <p>Viimeisin viesti 12:55 1.1.1000</p>
+        <p>Kirjoittaja: Maija Meikäläinen</p>
+    </div>
+</div>
+<?php
+include 'common/footer.php';
