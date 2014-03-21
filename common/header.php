@@ -5,6 +5,7 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/bootstrap-theme.min.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
+        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
         <title>Foorumi</title>
     </head>
     <body>
@@ -23,7 +24,7 @@
             <br>
             <br>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="index.php">Etusivu</a></li>
+                <li><a href="index.php">Etusivu</a></li><!--class="active"-->
                 <li><a href="search.php">Haku</a></li>
                 <li><a href="register.php">Rekisteröidy</a></li>
                 <li><a href="admin.php">Hallinta</a></li>
