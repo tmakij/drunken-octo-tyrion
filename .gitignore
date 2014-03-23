@@ -1,1 +1,7 @@
 /nbproject/private/
+db_const.php
+*.aux
+*.dvi
+*.log
+*.toc
+*.gz

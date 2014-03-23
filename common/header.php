@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fi">
     <head>
+        <meta charset="utf-8" />
         <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/bootstrap-theme.min.css" rel="stylesheet">
