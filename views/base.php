@@ -11,13 +11,13 @@
     </head>
     <body>
         <div class="sivu">
-            <form id="kirjautuminen" class="kirjautuminen">
-                Käyttäkätunnus: <input type="text" id="tunnus">
+            <?php if (!empty($data->virhe)): ?>
+                <div class="alert alert-danger">Virhe: <?php echo $data->virhe; ?></div>
                 <br>
-                Salasana: <input type="password" id="salasana">
                 <br>
-                <button onclick="" id="kirjaudu">Kirjaudu</button>
-            </form> 
+            <?php endif;
+            require 'views/login.php';
+            ?>
             <br>
             <br>
             <br>
@@ -32,3 +32,9 @@
             </ul>
             <br>
             <br>
+            <!-- Sivukohtainen alue alkaa -->
+<?php require 'views/' . $sivu . '.php'; ?>
+            <!-- Sivukohtainen alue loppuu -->
+        </div>
+    </body>
+</html>

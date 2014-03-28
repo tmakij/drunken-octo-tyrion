@@ -1,23 +1,34 @@
 <?php
-include 'common/header.php';
-?>
-<a href="newmessage.php">Uusiviesti</a>
-<br>
-<br>
-<br>
-<div class="viestit">
-    <div class="viesti">
-        <a href="thread.php?id=0">Tapaaminen</a>
-        <br>
-        <p>Viimeisin viesti 13:00 1.1.1000</p>
-        <p>Kirjoittaja: Matti Meikäläinen</p>
-    </div>
-    <div class="viesti">
-        <a href="thread.php?id=0">Uusi foorumi</a>
-        <br>
-        <p>Viimeisin viesti 12:55 1.1.1000</p>
-        <p>Kirjoittaja: Maija Meikäläinen</p>
-    </div>
-</div>
-<?php
-include 'common/footer.php';
+
+require_once 'libs/common.php';
+require_once 'libs/models/kayttaja.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    naytaNakyma('index', array());
+}
+$tunnus = $_POST['tunnus'];
+
+if (empty($tunnus)) {
+    naytaNakyma("index", array(
+        'virhe' => 'Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.',
+    ));
+}
+
+$salasana = $_POST["salasana"];
+
+if (empty($salasana)) {
+    naytaNakyma('index', array(
+        'kayttaja' => $kayttaja,
+        'virhe' => 'Kirjautuminen epäonnistui! Et antanut salasanaa.',
+    ));
+}
+$kayttaja = Kayttaja::haeKayttaja($tunnus, $salasana);
+
+if ($kayttaja != null && $tunnus == $kayttaja->getNimi() && $salasana == $kayttaja->getSalasana()) {
+    redirect('admin');
+} else {
+    naytaNakyma("index", array(
+        'kayttaja' => $kayttaja,
+        'virhe' => 'Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.'
+    ));
+}
