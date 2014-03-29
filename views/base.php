@@ -15,8 +15,9 @@
                 <div class="alert alert-danger">Virhe: <?php echo $data->virhe; ?></div>
                 <br>
                 <br>
-            <?php endif;
-            require 'views/login.php';
+                <?php
+            endif;
+            require 'views/' . $kirj . '.php';
             ?>
             <br>
             <br>
@@ -33,7 +34,7 @@
             <br>
             <br>
             <!-- Sivukohtainen alue alkaa -->
-<?php require 'views/' . $sivu . '.php'; ?>
+            <?php require 'views/' . $sivu . '.php'; ?>
             <!-- Sivukohtainen alue loppuu -->
         </div>
     </body>
