@@ -1,6 +1,7 @@
 <?php
 
 require_once 'libs/tietokantayhteys.php';
+require_once 'libs/models/kayttajaryhma.php';
 
 final class Kayttaja {
 
@@ -9,10 +10,10 @@ final class Kayttaja {
     private $salasana;
     private $ryhma;
 
-    public static function haeKayttaja($kayttaja, $salasana) {
+    public static function haeKayttaja($nimi, $salasana) {
         $sql = 'SELECT id, nimi, salasana, ryhma FROM kayttaja WHERE nimi = ? AND salasana = ?';
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($kayttaja, $salasana));
+        $kysely->execute(array($nimi, $salasana));
 
         $tulos = $kysely->fetchObject();
         if ($tulos == null) {

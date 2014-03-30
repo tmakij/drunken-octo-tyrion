@@ -26,10 +26,12 @@
             <br>
             <br>
             <ul class="nav nav-tabs">
-                <li><a href="index.php">Etusivu</a></li><!--class="active"-->
-                <li><a href="search.php">Haku</a></li>
-                <li><a href="register.php">Rekisteröidy</a></li>
-                <li><a href="admin.php">Hallinta</a></li>
+                <?php
+                echo $link_index;
+                echo $link_search;
+                echo $link_register;
+                echo $link_admin;
+                ?>
             </ul>
             <br>
             <br>
