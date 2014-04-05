@@ -33,10 +33,25 @@
 
 }
 
-.viesti{
+.ketju{
+    width: 100%;
+    overflow: hidden;
     background-color:rgba(128, 128, 192, 0.25);
     border-radius: 10px;
     text-decoration:none;
+    border-radius: 10px;
+    border-style:solid;
+    border-width:1px;
+}
+
+.ketju_tiedot{
+    float: left;
+    width:20%;
+}
+
+.ketju_toiminnot{
+    float:left;
+    width: 20%;
 }
 
 #uusiviesti{

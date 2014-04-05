@@ -6,11 +6,17 @@ require_once 'libs/models/viestiketju.php';
 
 $params = array('ketjut' => Viestiketju::getKetjut());
 
-if (getRequestMethod() !== 'GET') {
-    if (onKirjautunut()) {
-        kirjaaUlos();
+if (getRequestMethod() === 'POST') {
+    $id = getQueryString('delete');
+    if (!isset($id) || empty($id)) {
+        if (onKirjautunut()) {
+            kirjaaUlos();
+        } else {
+            kirjaudu();
+        }
     } else {
-        kirjaudu();
+        Viestiketju::poistaKetju($id);
+        redirect('index');
     }
 }
 naytaNakyma('index', $params);

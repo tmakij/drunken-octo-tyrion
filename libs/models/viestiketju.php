@@ -36,6 +36,14 @@ final class Viestiketju extends IDobject {
         return $ketjut;
     }
 
+    public static function poistaKetju($id) {
+        tallennaTietokantaan('DELETE FROM viestiketju WHERE id = ?', array($id));
+    }
+
+    public static function paivitaKetju($id, $otsikko, $aihe) {
+        tallennaTietokantaan('UPDATE viestiketju SET aihe = ?, otsikko = ? WHERE id = ?', array($aihe, $otsikko, $id));
+    }
+
     public static function luoKetju($otsikko, $aihe, $sisalto, $kayttajaID) {
         $kysely = tallennaTietokantaan('INSERT INTO viestiketju(otsikko, aihe) VALUES(?, ?) RETURNING ID', array($otsikko, $aihe));
         $id = $kysely->fetchColumn();
@@ -55,7 +63,7 @@ final class Viestiketju extends IDobject {
     }
 
     public function getAika() {
-        return reset($this->viestit)->getAika();
+        return end($this->viestit)->getAika();
     }
 
     public function getViimeisin() {

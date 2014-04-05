@@ -17,6 +17,7 @@ function naytaNakyma($sivu, $data = array()) {
     $aiheet = isset($data->aiheet) ? $data->aiheet : null;
     $ketju = isset($data->ketju) ? $data->ketju : null;
     $aihe = isset($ketju) ? Aihe::getAihe($ketju->getAihe()) : null;
+    $poisto = $ryhma->voiHallita();
 
     $varoitus = isset($data->virhe) ? $data->virhe : '';
     if (onkoSessionViestia()) {
@@ -59,7 +60,7 @@ function getSivu() {
 }
 
 function sanitize($param) {
-    return htmlspecialchars($param, ENT_QUOTES | ENT_HTML5, 'UTF - 8');
+    return htmlspecialchars($param, ENT_QUOTES, 'UTF-8');
 }
 
 /* function getRequestMethod() {

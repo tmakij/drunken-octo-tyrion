@@ -21,7 +21,7 @@ final class Viesti extends IDobject {
             array_push($viestit, $viesti);
         }
         uasort($viestit, function ($a, $b) {
-            return $a->getAika() > $b->getAika() ? -1 : 1;
+            return $a->getAika() > $b->getAika() ? 1 : -1;
         });
         return $viestit;
     }
