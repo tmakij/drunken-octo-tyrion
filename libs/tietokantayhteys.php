@@ -1,5 +1,7 @@
 <?php
 
+require_once 'libs/databaseexception.php';
+
 function getTietokantayhteys() {
     static $yhteys = null;
     if ($yhteys == null) {
@@ -22,7 +24,7 @@ function kysele($kysely, $params) {
 function query($sql, $action, $params = array()) {
     $tulos = $action(kysele(kyselePohja($sql), $params));
     if ($tulos == null) {
-        throw new Exception('Tulos oli tyhjä');
+        throw new DataBaseException();
     }
     return $tulos;
 }
@@ -47,6 +49,6 @@ function queryMaara($sql, $params = array()) {
 
 function tallennaTietokantaan($sql, $params = array()) {
     $kysely = kyselePohja($sql);
-    kysele(kyselePohja($sql), $params);
+    kysele($kysely, $params);
     return $kysely;
 }

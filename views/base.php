@@ -36,7 +36,7 @@
             <br>
             <br>
             <!-- Sivukohtainen alue alkaa -->
-            <?php require 'views/' . $sivu . '.php'; ?>
+            <?php require_once 'views/' . $sivu . '.php'; ?>
             <!-- Sivukohtainen alue loppuu -->
         </div>
     </body>

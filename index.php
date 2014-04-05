@@ -27,7 +27,7 @@ function kirjaudu() {
                 kirjaaSisaan($kayttaja);
                 redirect('index');
             }
-        } catch (Exception $ex) {
+        } catch (DataBaseException $ex) {
             $parameters['virhe'] = 'Käyttäjtunnus tai salasana on väärä';
         }
     }, array(

@@ -19,7 +19,7 @@ CREATE TABLE viestiketju (
 CREATE TABLE viesti (
     id              SERIAL PRIMARY KEY,
 	sisalto         TEXT NOT NULL,
-	aika            TIME NOT NULL,
+	aika            TIMESTAMP(0) NOT NULL,
 	kirjoittaja     INTEGER NOT NULL REFERENCES kayttaja(id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	viestiketju     INTEGER NOT NULL REFERENCES viestiketju(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

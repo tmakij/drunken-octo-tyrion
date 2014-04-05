@@ -2,6 +2,8 @@
 
 require_once 'libs/models/kayttaja.php';
 require_once 'libs/models/groups/ryhma.php';
+require_once 'libs/models/aihe.php';
+require_once 'libs/databaseexception.php';
 session_start();
 
         const session_name = 'kayttaja';
@@ -12,6 +14,9 @@ function naytaNakyma($sivu, $data = array()) {
     $kirj = onKirjautunut() ? 'greet' : 'login';
     $kayttaja = onKirjautunut() ? getKirjautunut() : null;
     $ryhma = getRyhmaID($kayttaja);
+    $aiheet = isset($data->aiheet) ? $data->aiheet : null;
+    $ketju = isset($data->ketju) ? $data->ketju : null;
+    $aihe = isset($ketju) ? Aihe::getAihe($ketju->getAihe()) : null;
 
     $varoitus = isset($data->virhe) ? $data->virhe : '';
     if (onkoSessionViestia()) {
@@ -52,6 +57,14 @@ function getRequestMethod() {
 function getSivu() {
     return basename($_SERVER['PHP_SELF']);
 }
+
+/* function getRequestMethod() {
+  return filter_input(INPUT_SERVER, 'REQUEST_METHOD');
+  }
+
+  function getSivu() {
+  return basename(filter_input(INPUT_SERVER, 'PHP_SELF'));
+  } */
 
 function kirjaaSisaan($kayttaja) {
     $_SESSION[session_name] = $kayttaja;

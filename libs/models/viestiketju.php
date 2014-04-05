@@ -20,16 +20,25 @@ final class Viestiketju extends IDobject {
     }
 
     public static function getKetjut() {
+        $tulos = queryArray('SELECT id, otsikko, aihe FROM viestiketju', array());
         $ketjut = array();
-        $maara = queryMaara('SELECT COUNT(*) as cnt FROM viestiketju', array()) + 1; //IDt alkavat 1:stä
-        for ($i = 1; $i < $maara; $i++) {
-            array_push($ketjut, self::getKetju($i));
+        foreach ($tulos as $ketjuTulos) {
+            $ketju = new Viestiketju();
+            $ketju->id = $ketjuTulos->id;
+            $ketju->otsikko = $ketjuTulos->otsikko;
+            $ketju->aihe = $ketjuTulos->aihe;
+            $ketju->viestit = Viesti::getViestitKetjusta($ketju->id);
+            array_push($ketjut, $ketju);
         }
+        uasort($ketjut, function ($a, $b) {
+            return $a->getAika() > $b->getAika() ? -1 : 1;
+        });
         return $ketjut;
     }
 
     public static function luoKetju($otsikko, $aihe, $sisalto, $kayttajaID) {
-        $id = tallennaTietokantaan('INSERT INTO viestiketju(otsikko, aihe) VALUES(?, ?) RETURNING ID', array($otsikko, $aihe))->fetchColumn();
+        $kysely = tallennaTietokantaan('INSERT INTO viestiketju(otsikko, aihe) VALUES(?, ?) RETURNING ID', array($otsikko, $aihe));
+        $id = $kysely->fetchColumn();
         Viesti::uusiViesti($id, $sisalto, $kayttajaID);
     }
 

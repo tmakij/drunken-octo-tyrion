@@ -24,7 +24,7 @@ final class Viesti extends IDobject {
     }
 
     public static function uusiViesti($ketju, $sisalto, $kayttaja) {
-        tallennaTietokantaan('INSERT INTO kayttaja (sisalto, aika, kirjoittaja, viestiketju) VALUES (?, now(), ?, ?)'
+        tallennaTietokantaan('INSERT INTO viesti (sisalto, aika, kirjoittaja, viestiketju) VALUES (?, current_timestamp, ?, ?)'
                 , array($sisalto, $kayttaja, $ketju));
     }
 

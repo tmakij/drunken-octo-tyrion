@@ -1,9 +1,9 @@
 <div class="viestiketju">
-    <a href="response.php?id=0">Vastaa</a>
-    <p>Aihe: Rupattelu</p>
-    <p>Otsikko: Uusi foorumi</p>
-    <br>
     <?php if (!empty($data->ketju)): ?>
+        <a href="response.php?id=<?php echo $data->ketju->getId(); ?>">Vastaa</a>
+        <p>Aihe: Rupattelu</p>
+        <p>Otsikko: Uusi foorumi</p>
+        <br>
         <?php foreach ($data->ketju->getViestit() as $viesti): ?>
             <div class="fviesti">
                 <div class="henkilo">
