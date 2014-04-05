@@ -29,7 +29,7 @@ final class Viestiketju extends IDobject {
     }
 
     public static function luoKetju($otsikko, $aihe, $sisalto, $kayttajaID) {
-        $id = tallennaTietokantaan('INSERT INTO viestiketju VALUES (?, ?) RETURNIN ID', array($otsikko, $aihe))->fetchColumn();
+        $id = tallennaTietokantaan('INSERT INTO viestiketju(otsikko, aihe) VALUES(?, ?) RETURNING ID', array($otsikko, $aihe))->fetchColumn();
         Viesti::uusiViesti($id, $sisalto, $kayttajaID);
     }
 

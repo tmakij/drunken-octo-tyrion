@@ -14,14 +14,13 @@ function kyselePohja($sql) {
     return $kysely;
 }
 
-function kysele($kysely, $params = array()) {
-    return $kysely->execute($params);
+function kysele($kysely, $params) {
+    $kysely->execute($params);
+    return $kysely;
 }
 
 function query($sql, $action, $params = array()) {
-    $kysele = kyselePohja($sql);
-    $kysely = kysele($kysele, $params);
-    $tulos = $action($kysely);
+    $tulos = $action(kysele(kyselePohja($sql), $params));
     if ($tulos == null) {
         throw new Exception('Tulos oli tyhjä');
     }
@@ -48,6 +47,6 @@ function queryMaara($sql, $params = array()) {
 
 function tallennaTietokantaan($sql, $params = array()) {
     $kysely = kyselePohja($sql);
-    kysele($kysely, $params);
+    kysele(kyselePohja($sql), $params);
     return $kysely;
 }

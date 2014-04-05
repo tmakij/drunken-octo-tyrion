@@ -82,7 +82,7 @@ function getSessionViesti() {
 }
 
 function getQueryString($string) {
-    return filter_input(INPUT_SERVER, $string);
+    return filter_input(INPUT_GET, $string);
 }
 
 function poistaSessionViesti() {
@@ -94,7 +94,7 @@ function redirect($page) {
     die();
 }
 
-function varmistaArvotTyhjat($josOikein, $check, $actions = array(), &$params = array()) {
+function varmistaArvotTyhjat($josOikein, $actions = array(), &$params = array()) {
     varmistaArvot($josOikein, function ($katottava) {
         return empty($katottava);
     }, $actions, $params);
@@ -104,7 +104,7 @@ function varmistaArvot($josOikein, $check, $actions = array(), &$params = array(
     foreach ($actions as $key => $value) {
         $arvo = getPost($key);
         if ($check($arvo)) {
-            $params['virhe'] = $value;
+            setSessionViesti($value);
             return;
         }
     }

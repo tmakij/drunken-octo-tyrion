@@ -9,7 +9,7 @@
                 <div class="henkilo">
                     <p><?php echo $viesti->getKirjoittaja(); ?></p>
                     <br>
-                    <p><?php echo getRyhmaID($viesti->getKirjoittaja()->getID()); ?></p>
+                    <p><?php echo getRyhmaID($viesti->getKirjoittaja()); ?></p>
                 </div>
                 <div class="sisalto">
                     <p><?php echo $viesti->getAika(); ?></p>
