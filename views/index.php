@@ -7,7 +7,7 @@
         <?php foreach ($data->ketjut as $ketju): ?>
             <div class="ketju">
                 <div class="ketju_tiedot">
-                    <a href="thread.php?id=<?php echo $ketju->getId(); ?>"><?php echo sanitize($ketju->getOtsikko()); ?></a>
+                    <h5><a href="thread.php?id=<?php echo $ketju->getId(); ?>"><?php echo sanitize($ketju->getOtsikko()); ?></a></h5>
                     <br>
                     <p>Viimeisin viesti <?php echo $ketju->getAika(); ?></p>
                     Kirjoittaja: <?php echo sanitize($ketju->getViimeisin()); ?>
@@ -20,6 +20,7 @@
                     </div>
                 <?php endif; ?>
             </div>
+            <br>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>
