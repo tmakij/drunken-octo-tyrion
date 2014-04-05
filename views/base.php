@@ -11,8 +11,8 @@
     </head>
     <body>
         <div class="sivu">
-            <?php if (!empty($data->virhe)): ?>
-                <div class="alert alert-danger">Virhe: <?php echo $data->virhe; ?></div>
+            <?php if (!empty($varoitus)): ?>
+                <div class="alert alert-danger">Virhe: <?php echo $varoitus; ?></div>
                 <br>
                 <br>
                 <?php

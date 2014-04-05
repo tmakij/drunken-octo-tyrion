@@ -3,16 +3,14 @@
 <br>
 <br>
 <div class="viestit">
-    <div class="viesti">
-        <a href="thread.php?id=0">Tapaaminen</a>
-        <br>
-        <p>Viimeisin viesti 13:00 1.1.1000</p>
-        <p>Kirjoittaja: Matti Meikäläinen</p>
-    </div>
-    <div class="viesti">
-        <a href="thread.php?id=0">Uusi foorumi</a>
-        <br>
-        <p>Viimeisin viesti 12:55 1.1.1000</p>
-        <p>Kirjoittaja: Maija Meikäläinen</p>
-    </div>
+    <?php if (!empty($data->ketjut)): ?>
+        <?php foreach ($data->ketjut as $ketju): ?>
+            <div class="viesti">
+                <a href="thread.php?id="<?php echo $ketju->getId() . '"'; ?>><?php echo $ketju->getOtsikko(); ?></a>
+                <br>
+                <p>Viimeisin viesti <?php echo $ketju->getAika(); ?></p>
+                <p>Kirjoittaja: <?php echo $ketju->getViimeisin(); ?></p>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>

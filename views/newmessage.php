@@ -1,5 +1,5 @@
-<form id="uusiviesti" class="uusiviesti">
-    Otsikko: <input type="text" id="otsikko">
+<form id="uusiviesti">
+    Otsikko: <input type="text" id="otsikko" required>
     <br>
     Aihe:     
     <select>
@@ -10,7 +10,7 @@
     </select>
     <br>
     <br>
-    <textarea rows="25" cols="150" id="sisalto"></textarea>
+    <textarea rows="25" cols="150" id="sisalto" required></textarea>
     <br>
     <button onclick="" id="luo">Läheta</button>
 </form>

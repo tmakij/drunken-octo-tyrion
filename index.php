@@ -2,46 +2,36 @@
 
 require_once 'libs/common.php';
 require_once 'libs/models/kayttaja.php';
+require_once 'libs/models/viestiketju.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    naytaNakyma('index', array());
-}
+$params = array('ketjut' => Viestiketju::getKetjut());
 
-if (onKirjautunut()) {
-    kirjauduUlos();
-} else {
-    kirjaudu();
+if (getRequestMethod() !== 'GET') {
+    if (onKirjautunut()) {
+        kirjaaUlos();
+    } else {
+        kirjaudu();
+    }
 }
+naytaNakyma('index', $params);
 
 function kirjaudu() {
-    $tunnus = $_POST['tunnus'];
+    global $params;
 
-    if (empty($tunnus)) {
-        naytaNakyma('index', array(
-            'virhe' => 'Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.',
-        ));
-    }
-
-    $salasana = $_POST["salasana"];
-
-    if (empty($salasana)) {
-        naytaNakyma('index', array(
-            'virhe' => 'Kirjautuminen epäonnistui! Et antanut salasanaa.',
-        ));
-    }
-    $kayttaja = Kayttaja::haeKayttaja($tunnus, $salasana);
-
-    if ($kayttaja != null && $tunnus == $kayttaja->getNimi() && $salasana == $kayttaja->getSalasana()) {
-        kirjaaSisaan($kayttaja);
-        redirect('index');
-    } else {
-        naytaNakyma('index', array(
-            'virhe' => 'Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.'
-        ));
-    }
-}
-
-function kirjauduUlos() {
-    kirjaaUlos();
-    naytaNakyma('index', array());
+    varmistaArvotTyhjat(function(&$parameters = array()) {
+        try {
+            $tunnus = getPost('tunnus');
+            $salasana = getPost('salasana');
+            $kayttaja = Kayttaja::haeKayttaja($tunnus, $salasana);
+            if ($tunnus == $kayttaja->getNimi() && $salasana == $kayttaja->getSalasana()) {
+                kirjaaSisaan($kayttaja);
+                redirect('index');
+            }
+        } catch (Exception $ex) {
+            $parameters['virhe'] = 'Käyttäjtunnus tai salasana on väärä';
+        }
+    }, array(
+        'tunnus' => 'Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.',
+        'salasana' => 'Kirjautuminen epäonnistui! Et antanut salasanaa.'
+            ), $params);
 }

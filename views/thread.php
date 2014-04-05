@@ -3,15 +3,19 @@
     <p>Aihe: Rupattelu</p>
     <p>Otsikko: Uusi foorumi</p>
     <br>
-    <div class="fviesti">
-        <div class="henkilo">
-            <p>Matti Meikäinen</p>
-            <br>
-            <p>Ylläpitäjä</p>
-        </div>
-        <div class="sisalto">
-            <p>12.51 1.1.1000</p>
-            <p>On kyllä hieno!</p>
-        </div>
-    </div>
+    <?php if (!empty($data->ketju)): ?>
+        <?php foreach ($data->ketju->getViestit() as $viesti): ?>
+            <div class="fviesti">
+                <div class="henkilo">
+                    <p><?php echo $viesti->getKirjoittaja(); ?></p>
+                    <br>
+                    <p><?php echo getRyhmaID($viesti->getKirjoittaja()->getID()); ?></p>
+                </div>
+                <div class="sisalto">
+                    <p><?php echo $viesti->getAika(); ?></p>
+                    <p><?php echo $viesti->getSisalto(); ?></p>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>

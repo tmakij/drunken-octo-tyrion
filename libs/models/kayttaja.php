@@ -1,39 +1,36 @@
 <?php
 
+require_once 'libs/models/idobject.php';
 require_once 'libs/tietokantayhteys.php';
-require_once 'libs/models/kayttajaryhma.php';
 
-final class Kayttaja {
+final class Kayttaja extends IDobject {
 
-    private $id;
     private $nimi;
     private $salasana;
     private $ryhma;
 
-    public static function haeKayttaja($nimi, $salasana) {
-        $sql = 'SELECT id, nimi, salasana, ryhma FROM kayttaja WHERE nimi = ? AND salasana = ?';
-        $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($nimi, $salasana));
+    public static function haeKayttajaID($id) {
+        $tulos = querySingle('SELECT id, nimi, ryhma FROM kayttaja WHERE id = ?', array($id));
+        $kayttaja = new Kayttaja();
+        $kayttaja->id = $tulos->id;
+        $kayttaja->nimi = $tulos->nimi;
+        $kayttaja->ryhma = $tulos->ryhma;
+        $kayttaja->salasana = null;
+        return $kayttaja;
+    }
 
-        $tulos = $kysely->fetchObject();
-        if ($tulos == null) {
-            return null;
-        } else {
-            $kayttaja = new Kayttaja();
-            $kayttaja->id = $tulos->id;
-            $kayttaja->nimi = $tulos->nimi;
-            $kayttaja->salasana = $tulos->salasana;
-            $kayttaja->ryhma = $tulos->ryhma;
-            return $kayttaja;
-        }
+    public static function haeKayttaja($nimi, $salasana) {
+        $tulos = querySingle('SELECT id, nimi, salasana, ryhma FROM kayttaja WHERE nimi = ? AND salasana = ?', array($nimi, $salasana));
+        $kayttaja = new Kayttaja();
+        $kayttaja->id = $tulos->id;
+        $kayttaja->nimi = $tulos->nimi;
+        $kayttaja->salasana = $tulos->salasana;
+        $kayttaja->ryhma = $tulos->ryhma;
+        return $kayttaja;
     }
 
     public function getRyhma() {
         return $this->ryhma;
-    }
-
-    public function getId() {
-        return $this->id;
     }
 
     public function getNimi() {
@@ -46,6 +43,10 @@ final class Kayttaja {
 
     public function setRyhma($ryhma) {
         $this->ryhma = $ryhma;
+    }
+
+    public function __toString() {
+        return $this->nimi;
     }
 
 }

@@ -1,17 +1,29 @@
 <?php
 
 require_once 'libs/models/kayttaja.php';
+require_once 'libs/models/groups/ryhma.php';
 session_start();
 
         const session_name = 'kayttaja';
+        const session_viesti = 'viesti';
 
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
     $kirj = onKirjautunut() ? 'greet' : 'login';
     $kayttaja = onKirjautunut() ? getKirjautunut() : null;
-    $ryhma = Kayttajaryhma::getRyhma($kayttaja == null ? -1 : $kayttaja->getRyhma());
+    $ryhma = getRyhmaID($kayttaja);
+
+    $varoitus = isset($data->virhe) ? $data->virhe : '';
+    if (onkoSessionViestia()) {
+        if (!empty($varoitus)) {
+            $varoitus .= '<br>';
+        }
+        $varoitus .= getSessionViesti();
+        poistaSessionViesti();
+    }
     if (!$ryhma->paaseeSivulle(getSivu())) {
-        die('Sinulla ei ole oikeuttaa nähdä sivua ' . getSivu());
+        setSessionViesti('Sinulla ei ole oikeuttaa nähdä sivua ' . getSivu());
+        redirect('index');
     }
 
     //Ei taida tehä mitään...
@@ -23,6 +35,18 @@ function naytaNakyma($sivu, $data = array()) {
             '<li><a href="admin.php"' . (getSivu() == 'admin.php' ? ' class="active"' : '') . '>Hallinta</a></li>' : '';
     require 'views/base.php';
     die();
+}
+
+function getRyhmaID($kayttaja) {
+    return getRyhma($kayttaja == null ? -1 : $kayttaja->getRyhma());
+}
+
+function getPost($var) {
+    return filter_input(INPUT_POST, $var);
+}
+
+function getRequestMethod() {
+    return $_SERVER['REQUEST_METHOD'];
 }
 
 function getSivu() {
@@ -45,7 +69,46 @@ function onKirjautunut() {
     return isset($_SESSION[session_name]);
 }
 
+function setSessionViesti($param) {
+    $_SESSION[session_viesti] = $param;
+}
+
+function onkoSessionViestia() {
+    return isset($_SESSION[session_viesti]);
+}
+
+function getSessionViesti() {
+    return $_SESSION[session_viesti];
+}
+
+function getQueryString($string) {
+    return filter_input(INPUT_SERVER, $string);
+}
+
+function poistaSessionViesti() {
+    unset($_SESSION[session_viesti]);
+}
+
 function redirect($page) {
     header('Location: ' . $page . '.php');
     die();
+}
+
+function varmistaArvotTyhjat($josOikein, $check, $actions = array(), &$params = array()) {
+    varmistaArvot($josOikein, function ($katottava) {
+        return empty($katottava);
+    }, $actions, $params);
+}
+
+function varmistaArvot($josOikein, $check, $actions = array(), &$params = array()) {
+    foreach ($actions as $key => $value) {
+        $arvo = getPost($key);
+        if ($check($arvo)) {
+            $params['virhe'] = $value;
+            return;
+        }
+    }
+    if (isset($josOikein)) {
+        $josOikein($params);
+    }
 }
