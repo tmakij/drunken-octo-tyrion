@@ -12,11 +12,12 @@
                     <p>Viimeisin viesti <?php echo $ketju->getAika(); ?></p>
                     Kirjoittaja: <?php echo sanitize($ketju->getViimeisin()); ?>
                 </div>
-                <?php if ($poisto) : ?>
+                <?php if ($ryhma->voiHallita()) : ?>
                     <div class="ketju_toiminnot">
                         <form action="index.php?delete=<?php echo $ketju->getId(); ?>" method="POST" id="poisto">
                             <button type="submit">Poista ketju</button>
                         </form>
+                        <a href="editthread.php?id=<?php echo $ketju->getId(); ?>">Muokkaa</a>
                     </div>
                 <?php endif; ?>
             </div>

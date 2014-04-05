@@ -9,10 +9,16 @@ $params = array();
 $ketjuId = getQueryString('id');
 if (isset($ketjuId) && is_numeric($ketjuId)) {
     if (getRequestMethod() === 'POST') {
-        
+        $aihe = getPost('aihe');
+        $otsikko = getPost('otsikko');
+        if (isset($aihe) && is_numeric($aihe) && !empty($otsikko)) {
+            Viestiketju::paivitaKetju($ketjuId, $otsikko, $aihe);
+            redirect('index');
+        }
     } else {
         try {
             $params['ketju'] = Viestiketju::getKetju($ketjuId);
+            $params['aiheet'] = Aihe::getAiheet();
         } catch (DataBaseException $ex) {
             setSessionViesti('Ei ole olemassa ketjua' . $ketjuId);
             redirect('index');
