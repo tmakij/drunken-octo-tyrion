@@ -11,6 +11,7 @@ if (is_numeric($threadId)) {
         $params['ketju'] = Viestiketju::getKetju($threadId);
         if (getRequestMethod() === 'POST') {
             Viesti::uusiViesti($threadId, getPost('sisalto'), getKirjautunut()->getId());
+            redirect('index');
         }
     } catch (DataBaseException $ex) {
         setSessionViesti('Ei löydetty ketjua: ' . $threadId);

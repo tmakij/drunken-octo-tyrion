@@ -12,7 +12,7 @@
     <body>
         <div class="sivu">
             <?php if (!empty($varoitus)): ?>
-                <div class="alert alert-danger">Virhe: <?php echo $varoitus; ?></div>
+                <div class="alert alert-danger">Virhe: <?php echo sanitize($varoitus); ?></div>
                 <br>
                 <br>
                 <?php

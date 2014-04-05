@@ -20,6 +20,9 @@ final class Viesti extends IDobject {
             $viesti->aika = $rivi->aika;
             array_push($viestit, $viesti);
         }
+        uasort($viestit, function ($a, $b) {
+            return $a->getAika() > $b->getAika() ? -1 : 1;
+        });
         return $viestit;
     }
 

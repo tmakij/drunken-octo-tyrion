@@ -58,6 +58,10 @@ function getSivu() {
     return basename($_SERVER['PHP_SELF']);
 }
 
+function sanitize($param) {
+    return htmlspecialchars($param, ENT_QUOTES | ENT_HTML5, 'UTF - 8');
+}
+
 /* function getRequestMethod() {
   return filter_input(INPUT_SERVER, 'REQUEST_METHOD');
   }
