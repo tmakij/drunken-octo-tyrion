@@ -16,7 +16,7 @@ function naytaNakyma($sivu, $data = array()) {
     $ryhma = getRyhmaID($kayttaja);
     $aiheet = isset($data->aiheet) ? $data->aiheet : null;
     $ketju = isset($data->ketju) ? $data->ketju : null;
-    $aihe = isset($ketju) ? Aihe::getAihe($ketju->getAihe()) : null;
+    $aihe = isset($ketju) ? Aihe::getAihe($ketju->getAihe()) : Aihe::getAihe(1);
     $poisto = $ryhma->voiHallita();
 
     $varoitus = isset($data->virhe) ? $data->virhe : '';

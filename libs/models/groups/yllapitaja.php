@@ -13,7 +13,7 @@ final class Yllapitaja extends Rekisteroitynyt {
     }
 
     protected function getSallitutSivut() {
-        return array_merge(parent::getSallitutSivut(), array('admin.php'));
+        return array_merge(parent::getSallitutSivut(), array('admin.php', 'editthread.php'));
     }
 
 }
