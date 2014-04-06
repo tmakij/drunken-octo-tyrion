@@ -1,6 +1,6 @@
 <?php
 
-require_once 'libs/common.php';
+require_once 'libs/controller.php';
 require_once 'libs/models/viestiketju.php';
 require_once 'libs/models/viesti.php';
 require_once 'libs/models/kayttaja.php';

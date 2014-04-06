@@ -3,6 +3,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{labelformat=empty}
 \title{Keskustelufoorumin Dokumentaatio}
 \author{Timo Mäki}
 \date{\today}
@@ -84,6 +86,7 @@ Voi laittaa eston käyttäjälle, jolloin tämä ei voi enää kirjoittaa uusia 
 Voi antaa pääkäyttäjän oikeudet muille rekisteröityneille käyttäjille.
 \end{itemize}
 
+\newpage
 
 \section{Käyttötapauskaavio}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{kayttotapauskaavio.png}
@@ -122,5 +125,43 @@ Voi antaa pääkäyttäjän oikeudet muille rekisteröityneille käyttäjille.
 
 \subsection{Vastaus}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{vastaus.png}
+
+\newpage
+
+\section{Asennustiedot}
+Foorumi on testattu PostgreSQL tietokannalla 8.4 sekä php 5.3:lla.
+Foorumin asennus toteutetaan kopioimalla tiedostot johonkin näkyvään paikkaan, esimerkiksi kansioon htdocs.
+Mitään salasanoja ei travitse laittaa, vaan users -palvelimella yhteys muodostetaan automaattisesti.
+Kansiossa foorumi/sql on sql scriptit, joista osa pitää suorittaa ennen palvelimen käyttöönottoa.
+create-tables.sql on pakollinen, jota ilman foorumi ei toimi lainkaan.
+add-test-data.sql on valinnainen, nopeaa testausta varten.
+Scripti luo roskatietoa.
+Tällä hetkellä sitä kuitenkin tarvitaan, jos haluaa pääkäyttäjän oikeudet.
+drop-tables.sql tuhoaa tietokannan sisällön. Tämän jälkeen tulee create-tables.sql suorittaa uudelleen.
+
+\section{Käyttöohjeet}
+\begin{table}[ht]
+\caption{Foorumin testitunnukset}
+\centering
+\begin{tabular}{c|c|c}
+\hline
+Nimi & Salasana & Rooli \\ [0.5ex]
+\hline
+Matti Meikäläinen&12345&Käyttäjä \\
+Maija Meikäläinen&54321&Ylläpitäjä \\
+Esimerkki Erkko&666&Viestikiellossa \\ [1ex]
+\hline
+\end{tabular}
+\end{table}
+
+Kirjautuminen tapahtuu laittamalla tunnukset sivun yläosassa olevaan kirjautumislaatikkoon.
+Kirjauduttua sisälle, käyttäjätunnuksen ja roolin tulisi näkyä kirjautumislaatikon tilalla.
+Tällä hetkellä vain viestiketjuilla on täysi CRUD setti.
+Niitä voi katsoa kuka tahansa ja niitä voivat rekisteröityneet käyttäjät luoda.
+Ylläpitäjä voi muokata viestiketjujen aihetta tai otsikkoa.
+Ylläpitäjä voi myös poistaa kokonaisia ketjuja.
+Vaihtoehdot siihen tulevat viestikejun oikealle puolelle etusivulla.
+Viestiketjuihin voi myös vastata.
+Haku, rekisteröinti tai hallinta sivut eivät toimi vielä.
 
 \end{document}

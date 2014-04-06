@@ -6,19 +6,20 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/bootstrap-theme.min.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
-        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
         <title>Foorumi</title>
     </head>
     <body>
         <div class="sivu">
+            <!-- Virhe alue alkaa -->
             <?php if (!empty($varoitus)): ?>
                 <div class="alert alert-danger">Virhe: <?php echo sanitize($varoitus); ?></div>
                 <br>
                 <br>
-                <?php
-            endif;
-            require 'views/' . $kirj . '.php';
-            ?>
+            <?php endif; ?>
+            <!-- Virhe alue loppuu -->
+            <!-- Tervehdys alue alkaa -->
+            <?php require 'views/' . $kirj . '.php'; ?>
+            <!-- Tervehdys alue loppuu -->
             <br>
             <br>
             <br>
