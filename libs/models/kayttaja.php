@@ -2,6 +2,7 @@
 
 require_once 'libs/models/idobject.php';
 require_once 'libs/tietokantayhteys.php';
+require_once 'libs/models/groups/ryhma.php';
 
 final class Kayttaja extends IDobject {
 
@@ -14,6 +15,17 @@ final class Kayttaja extends IDobject {
         $this->nimi = $nimi;
         $this->salasana = $salasana;
         $this->ryhma = $ryhma;
+    }
+
+    public static function uusiKayttaja($nimi, $salasana) {
+        try {
+            queryArray('SELECT nimi FROM kayttaja WHERE nimi = ?', array($nimi));
+        } catch (DataBaseException $ex) { //Lopputulos oli tyhjä, eli samannimsiä käytäjiä ei ole.
+            tallennaTietokantaan('INSERT INTO kayttaja (nimi, salasana, ryhma) VALUES (?, ?, ' . Rekisteroitynyt . ')'
+                    , array($nimi, $salasana));
+            return true;
+        }
+        return false;
     }
 
     public static function haeKayttajaID($id) {

@@ -1,4 +1,4 @@
-<form action="index.php" method="POST" id="kirjautuminen">
+<form action="index.php" method="POST" class="kirjautuminen">
     Käyttäkätunnus: <input type="text" name="tunnus" id="tunnus" required>
     <br>
     Salasana: <input type="password" name="salasana" id="salasana" required>

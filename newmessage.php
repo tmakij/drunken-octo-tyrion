@@ -10,7 +10,7 @@ if (getRequestMethod() === 'POST') {
         $sisalto = getPost('sisalto');
         $aihe = getPost('aihe');
         $otsikkoPituus = strlen($otsikko);
-        if ($otsikkoPituus > 0 && $otsikkoPituus < 32) {
+        if ($otsikkoPituus < 32) {
             if (is_numeric($aihe)) {
                 Viestiketju::luoKetju($otsikko, $aihe, $sisalto, getKirjautunut()->getId());
             } else {

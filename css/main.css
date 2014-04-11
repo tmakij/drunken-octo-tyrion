@@ -9,7 +9,7 @@
     margin-right: auto;
 }
 
-#kirjautuminen{
+.kirjautuminen{
     background-color:rgba(128, 224, 250, 0.45);
     border-radius: 10px;
     min-width: 20%;

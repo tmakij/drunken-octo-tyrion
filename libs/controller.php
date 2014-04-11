@@ -106,8 +106,8 @@ function poistaSessionViesti() {
     unset($_SESSION[session_viesti]);
 }
 
-function redirect($page) {
-    header('Location: ' . $page . '.php');
+function redirect($page, $queryStrings) {
+    header('Location: ' . $page . '.php' . (isset($queryStrings) ? '?' . $queryStrings : ''));
     die();
 }
 
