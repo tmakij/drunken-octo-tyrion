@@ -1,5 +1,5 @@
 <form id="uusiviesti" method="POST">
-    Otsikko: <input type="text" name="otsikko" required>
+    Otsikko: <input type="text" name="otsikko" required maxlength="31">
     <br>
     Aihe:<?php require_once 'aiheet.php'; ?>
     <br>

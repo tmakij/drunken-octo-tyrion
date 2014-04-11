@@ -2,7 +2,7 @@
     <?php if (!empty($data->ketju)): ?>
         <a href="response.php?id=<?php echo $data->ketju->getId(); ?>">Vastaa</a>
         <p>Aihe: <?php echo $aihe; ?></p>
-        <p>Otsikko: <?php echo $data->ketju->getOtsikko(); ?></p>
+        <p>Otsikko: <?php echo sanitize($data->ketju->getOtsikko()); ?></p>
         <br>
         <?php foreach ($data->ketju->getViestit() as $viesti): ?>
             <div class="fviesti">

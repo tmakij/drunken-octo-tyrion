@@ -9,23 +9,22 @@ final class Kayttaja extends IDobject {
     private $salasana;
     private $ryhma;
 
+    function __construct($id, $nimi, $salasana, $ryhma) {
+        $this->id = $id;
+        $this->nimi = $nimi;
+        $this->salasana = $salasana;
+        $this->ryhma = $ryhma;
+    }
+
     public static function haeKayttajaID($id) {
         $tulos = querySingle('SELECT id, nimi, ryhma FROM kayttaja WHERE id = ?', array($id));
-        $kayttaja = new Kayttaja();
-        $kayttaja->id = $tulos->id;
-        $kayttaja->nimi = $tulos->nimi;
-        $kayttaja->ryhma = $tulos->ryhma;
-        $kayttaja->salasana = null;
+        $kayttaja = new Kayttaja($tulos->id, $tulos->nimi, null, $tulos->ryhma);
         return $kayttaja;
     }
 
     public static function haeKayttaja($nimi, $salasana) {
         $tulos = querySingle('SELECT id, nimi, salasana, ryhma FROM kayttaja WHERE nimi = ? AND salasana = ?', array($nimi, $salasana));
-        $kayttaja = new Kayttaja();
-        $kayttaja->id = $tulos->id;
-        $kayttaja->nimi = $tulos->nimi;
-        $kayttaja->salasana = $tulos->salasana;
-        $kayttaja->ryhma = $tulos->ryhma;
+        $kayttaja = new Kayttaja($tulos->id, $tulos->nimi, $tulos->salasana, $tulos->ryhma);
         return $kayttaja;
     }
 

@@ -9,15 +9,18 @@ final class Viesti extends IDobject {
     private $sisalto;
     private $aika;
 
+    public function __construct($id, $kirjoittaja, $sisalto, $aika) {
+        $this->id = $id;
+        $this->kirjoittaja = $kirjoittaja;
+        $this->sisalto = $sisalto;
+        $this->aika = $aika;
+    }
+
     public static function getViestitKetjusta($ketju) {
         $tulos = queryArray('SELECT id, kirjoittaja, sisalto, aika FROM viesti where viestiketju = ?', array($ketju));
         $viestit = array();
         foreach ($tulos as $rivi) {
-            $viesti = new Viesti();
-            $viesti->id = $rivi->id;
-            $viesti->kirjoittaja = $rivi->kirjoittaja;
-            $viesti->sisalto = $rivi->sisalto;
-            $viesti->aika = $rivi->aika;
+            $viesti = new Viesti($rivi->id, $rivi->kirjoittaja, $rivi->sisalto, $rivi->aika);
             array_push($viestit, $viesti);
         }
         uasort($viestit, function ($a, $b) {

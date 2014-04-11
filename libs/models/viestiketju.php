@@ -9,13 +9,16 @@ final class Viestiketju extends IDobject {
     private $aihe;
     private $viestit;
 
+    function __construct($id, $otsikko, $aihe) {
+        $this->id = $id;
+        $this->otsikko = $otsikko;
+        $this->aihe = $aihe;
+        $this->viestit = Viesti::getViestitKetjusta($id);
+    }
+
     public static function getKetju($id) {
         $tulos = querySingle('SELECT id, otsikko, aihe FROM viestiketju where id = ?', array($id));
-        $ketju = new Viestiketju();
-        $ketju->id = $tulos->id;
-        $ketju->otsikko = $tulos->otsikko;
-        $ketju->aihe = $tulos->aihe;
-        $ketju->viestit = Viesti::getViestitKetjusta($ketju->id);
+        $ketju = new Viestiketju($tulos->id, $tulos->otsikko, $tulos->aihe);
         return $ketju;
     }
 
@@ -23,11 +26,7 @@ final class Viestiketju extends IDobject {
         $tulos = queryArray('SELECT id, otsikko, aihe FROM viestiketju', array());
         $ketjut = array();
         foreach ($tulos as $ketjuTulos) {
-            $ketju = new Viestiketju();
-            $ketju->id = $ketjuTulos->id;
-            $ketju->otsikko = $ketjuTulos->otsikko;
-            $ketju->aihe = $ketjuTulos->aihe;
-            $ketju->viestit = Viesti::getViestitKetjusta($ketju->id);
+            $ketju = new Viestiketju($ketjuTulos->id, $ketjuTulos->otsikko, $ketjuTulos->aihe);
             array_push($ketjut, $ketju);
         }
         uasort($ketjut, function ($a, $b) {
@@ -45,7 +44,8 @@ final class Viestiketju extends IDobject {
     }
 
     public static function luoKetju($otsikko, $aihe, $sisalto, $kayttajaID) {
-        $kysely = tallennaTietokantaan('INSERT INTO viestiketju(otsikko, aihe) VALUES(?, ?) RETURNING ID', array($otsikko, $aihe));
+        $kysely = tallennaTietokantaan('INSERT INTO viestiketju(otsikko, aihe) VALUES(?, ?) RETURNING ID'
+                , array($otsikko, $aihe));
         $id = $kysely->fetchColumn();
         Viesti::uusiViesti($id, $sisalto, $kayttajaID);
     }

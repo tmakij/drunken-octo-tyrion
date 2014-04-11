@@ -9,12 +9,17 @@ if (getRequestMethod() === 'POST') {
         $otsikko = getPost('otsikko');
         $sisalto = getPost('sisalto');
         $aihe = getPost('aihe');
-        if (is_numeric($aihe)) {
-            Viestiketju::luoKetju($otsikko, $aihe, $sisalto, getKirjautunut()->getId());
-            redirect('index');
+        $otsikkoPituus = strlen($otsikko);
+        if ($otsikkoPituus > 0 && $otsikkoPituus < 32) {
+            if (is_numeric($aihe)) {
+                Viestiketju::luoKetju($otsikko, $aihe, $sisalto, getKirjautunut()->getId());
+            } else {
+                setSessionViesti('Tuntematon aihe: ' . $aihe);
+            }
         } else {
-            setSessionViesti('Tuntematon aihe: ' . $aihe);
+            setSessionViesti('Otsikko on liian pitkä tai lyhyt: ' . $otsikkoPituus);
         }
+        redirect('index');
     }), array(
         'otsikko' => 'Viestin lähetys epäonnistui! Et antanut otsikkoa.',
         'sisalto' => 'Viestin lähetys epäonnistui! Viestisi oli tyhjä.'
