@@ -52,3 +52,13 @@ function tallennaTietokantaan($sql, $params = array()) {
     kysele($kysely, $params);
     return $kysely;
 }
+
+function tallennaAinutlaatuinen($sql, $params, $onnistunutSql, $onnistunutSqlParams) {
+    try {
+        queryArray($sql, $params);
+    } catch (DataBaseException $ex) { //Lopputulos oli tyhjä, eli arvoisia ei ole.
+        tallennaTietokantaan($onnistunutSql, $onnistunutSqlParams);
+        return true;
+    }
+    return false;
+}

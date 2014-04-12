@@ -18,7 +18,6 @@ if (isset($ketjuId) && is_numeric($ketjuId)) {
     } else {
         try {
             $params['ketju'] = Viestiketju::getKetju($ketjuId);
-            $params['aiheet'] = Aihe::getAiheet();
         } catch (DataBaseException $ex) {
             setSessionViesti('Ei ole olemassa ketjua' . $ketjuId);
             redirect('index');

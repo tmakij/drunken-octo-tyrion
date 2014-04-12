@@ -25,5 +25,4 @@ if (getRequestMethod() === 'POST') {
         'sisalto' => 'Viestin lähetys epäonnistui! Viestisi oli tyhjä.'
             ), $params);
 }
-$params['aiheet'] = Aihe::getAiheet();
 naytaNakyma('newmessage', $params);

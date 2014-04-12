@@ -1,23 +1,22 @@
 <p>Hallinta</p>
-<div>
-    Aseta käyttäjä <input type="number" id="id"> ryhmään
+<form action="admin.php" method="POST">
+    Aseta käyttäjä <input type="number" required> ryhmään
     <select>
         <option value="0">Viestikielto</option>
-        <option value="1">Käyttäjä</option>
-        <option value="2">Pääkäyttäjä</option>
+        <option value="1">Pääkäyttäjä</option>
+        <option value="2">Käyttäjä</option>
     </select>
-    <button onclick="" id="ok">Ok</button>
-    <br>
+    <button type="submit" name="toiminto" value="aseta_kayttaja_ryhma">Ok</button>
+</form>
+<br>
+<form action="admin.php" method="POST">
     Poista aihe
-    <select>
-        <option value="0">Rupattelu</option>
-        <option value="1">Juttelu</option>
-        <option value="2">Kakut</option>
-        <option value="3">Yliopisto</option>
-    </select>
-    <button onclick="" id="ok">Ok</button>
-    <br>
+    <?php require 'views/aiheet.php'; ?>
+    <button type="submit" name="toiminto" value="poista_aihe">Ok</button>
+</form>
+<br>
+<form action="admin.php" method="POST">
     Lisää aihe
-    <input type="text" id="name">
-    <button onclick="" id="ok">Ok</button>
-</div>
+    <input type="text" name="uusi_aihe" required maxlength="31">
+    <button type="submit" name="toiminto" value="lisaa_aihe">Ok</button>
+</form>

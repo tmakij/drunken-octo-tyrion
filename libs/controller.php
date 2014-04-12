@@ -8,6 +8,7 @@ session_start();
 
         const session_name = 'kayttaja';
         const session_viesti = 'viesti';
+        const onnistumis_viesti = 'onnistuminen';
 
 //Asetaan muuttujia näkymille ja varmistetaan oikeudet sivulle.
 function naytaNakyma($sivu, $data = array()) {
@@ -15,7 +16,7 @@ function naytaNakyma($sivu, $data = array()) {
     $kirj = onKirjautunut() ? 'greet' : 'login';
     $kayttaja = onKirjautunut() ? getKirjautunut() : null;
     $ryhma = getRyhmaID($kayttaja);
-    $aiheet = isset($data->aiheet) ? $data->aiheet : null;
+    $aiheet = Aihe::getAiheet();
     $ketju = isset($data->ketju) ? $data->ketju : null;
     $aihe = isset($ketju) ? Aihe::getAihe($ketju->getAihe()) : Aihe::getAihe(1);
 
@@ -26,6 +27,11 @@ function naytaNakyma($sivu, $data = array()) {
         }
         $varoitus .= getSessionViesti();
         poistaSessionViesti();
+    }
+    $onnistuminen = null;
+    if (onkoOnnistumisViesti()) {
+        $onnistuminen = getOnnistumisViesti();
+        poistaOnnistumisViesti();
     }
     if (!$ryhma->paaseeSivulle(getSivu())) {
         setSessionViesti('Sinulla ei ole oikeuttaa nähdä sivua ' . getSivu());
@@ -79,6 +85,24 @@ function onKirjautunut() {
     return isset($_SESSION[session_name]);
 }
 
+//Onnistumisviestintään
+function setOnnistumisViesti($param) {
+    $_SESSION[onnistumis_viesti] = $param;
+}
+
+function onkoOnnistumisViesti() {
+    return isset($_SESSION[onnistumis_viesti]);
+}
+
+function poistaOnnistumisViesti() {
+    unset($_SESSION[onnistumis_viesti]);
+}
+
+function getOnnistumisViesti() {
+    return $_SESSION[onnistumis_viesti];
+}
+
+//Virheviestintään
 function setSessionViesti($param) {
     $_SESSION[session_viesti] = $param;
 }
@@ -91,16 +115,19 @@ function getSessionViesti() {
     return $_SESSION[session_viesti];
 }
 
-function getQueryString($string) {
-    return filter_input(INPUT_GET, $string);
-}
-
 function poistaSessionViesti() {
     unset($_SESSION[session_viesti]);
 }
 
-function redirect($page, $queryStrings) {
-    header('Location: ' . $page . '.php' . (isset($queryStrings) ? '?' . $queryStrings : ''));
+function getQueryString($string) {
+    return filter_input(INPUT_GET, $string);
+}
+
+//Var 0: Uusisivu
+//Var 1: QueryString
+function redirect() {
+    $query = func_get_arg(1);
+    header('Location: ' . func_get_arg(0) . '.php' . (!empty($query) ? '?' . $query : ''));
     die();
 }
 

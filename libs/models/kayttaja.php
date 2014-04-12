@@ -18,14 +18,8 @@ final class Kayttaja extends IDobject {
     }
 
     public static function uusiKayttaja($nimi, $salasana) {
-        try {
-            queryArray('SELECT nimi FROM kayttaja WHERE nimi = ?', array($nimi));
-        } catch (DataBaseException $ex) { //Lopputulos oli tyhjä, eli samannimsiä käytäjiä ei ole.
-            tallennaTietokantaan('INSERT INTO kayttaja (nimi, salasana, ryhma) VALUES (?, ?, ' . Rekisteroitynyt . ')'
-                    , array($nimi, $salasana));
-            return true;
-        }
-        return false;
+        return tallennaAinutlaatuinen('SELECT nimi FROM kayttaja WHERE nimi = ?', array($nimi)
+                , 'INSERT INTO kayttaja (nimi, salasana, ryhma) VALUES (?, ?, ' . Rekisteroitynyt . ')', array($nimi, $salasana));
     }
 
     public static function haeKayttajaID($id) {

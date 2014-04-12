@@ -9,8 +9,13 @@ final class Aihe extends IDobject {
         $this->nimi = $nimi;
     }
 
+    public function poistaAihe($id) {
+        tallennaTietokantaan('DELETE FROM aihe WHERE nimi = ?', array($id));
+        return true;
+    }
+
     public static function uusiAihe($nimi) {
-        
+        return tallennaAinutlaatuinen('SELECT nimi FROM aihe WHERE nimi = ?', array($nimi), 'INSERT INTO aihe(nimi) VALUES(?)', array($nimi));
     }
 
     public static function getAihe($id) {

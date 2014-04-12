@@ -10,13 +10,18 @@
     </head>
     <body>
         <div class="sivu">
-            <!-- Virhe alue alkaa -->
+            <!-- Viesti alue alkaa -->
             <?php if (!empty($varoitus)): ?>
                 <div class="alert alert-danger">Virhe: <?php echo sanitize($varoitus); ?></div>
                 <br>
                 <br>
             <?php endif; ?>
-            <!-- Virhe alue loppuu -->
+            <?php if (!empty($onnistuminen)): ?>
+                <div class="alert alert-success">
+                    <?php echo sanitize($onnistuminen); ?>
+                </div>
+            <?php endif; ?>
+            <!-- Viesti alue loppuu -->
             <!-- Tervehdys alue alkaa -->
             <?php require 'views/' . $kirj . '.php'; ?>
             <!-- Tervehdys alue loppuu -->
