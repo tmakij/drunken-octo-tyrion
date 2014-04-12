@@ -9,6 +9,7 @@ session_start();
         const session_name = 'kayttaja';
         const session_viesti = 'viesti';
 
+//Asetaan muuttujia näkymille ja varmistetaan oikeudet sivulle.
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
     $kirj = onKirjautunut() ? 'greet' : 'login';
@@ -30,14 +31,6 @@ function naytaNakyma($sivu, $data = array()) {
         setSessionViesti('Sinulla ei ole oikeuttaa nähdä sivua ' . getSivu());
         redirect('index');
     }
-
-    //Ei taida tehä mitään...
-    $link_index = '<li><a href="index.php"' . (getSivu() == 'index.php' ? ' class="active"' : '') . '>Etusivu</a></li>';
-    $link_search = '<li><a href="search.php"' . (getSivu() == 'search.php' ? ' class="active"' : '') . '>Haku</a></li>';
-    $link_register = $ryhma->paaseeSivulle('register.php') ?
-            '<li><a href="register.php"' . (getSivu() == 'register.php' ? ' class="active"' : '') . '>Rekisteröidy</a></li>' : '';
-    $link_admin = $ryhma->paaseeSivulle('admin.php') ?
-            '<li><a href="admin.php"' . (getSivu() == 'admin.php' ? ' class="active"' : '') . '>Hallinta</a></li>' : '';
     require 'views/base.php';
     die();
 }

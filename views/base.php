@@ -27,12 +27,14 @@
             <br>
             <br>
             <ul class="nav nav-tabs">
-                <?php
-                echo $link_index;
-                echo $link_search;
-                echo $link_register;
-                echo $link_admin;
-                ?>
+                <li><a href="index.php">Etusivu</a></li>
+                <li><a href="search.php">Haku</a></li>
+                <?php if ($ryhma->paaseeSivulle('register.php')): ?>
+                    <li><a href="register.php">Rekisteröidy</a></li>
+                <?php endif; ?>
+                <?php if ($ryhma->paaseeSivulle('admin.php')): ?>
+                    <li><a href="admin.php">Hallinta</a></li>
+                <?php endif; ?>  
             </ul>
             <br>
             <br>
