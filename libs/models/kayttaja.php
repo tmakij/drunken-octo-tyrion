@@ -34,6 +34,15 @@ final class Kayttaja extends IDobject {
         return $kayttaja;
     }
 
+    public static function asetaRyhma($nimi, $ryhma) {
+        try {
+            tallennaTietokantaan('UPDATE kayttaja SET ryhma = ? WHERE nimi = ?', array($ryhma, $nimi));
+        } catch (PDOException $ex) {//Ei ole tämän nimistä käyttäjää.
+            return false;
+        }
+        return true;
+    }
+
     public function getRyhma() {
         return $this->ryhma;
     }
@@ -44,10 +53,6 @@ final class Kayttaja extends IDobject {
 
     public function getSalasana() {
         return $this->salasana;
-    }
-
-    public function setRyhma($ryhma) {
-        $this->ryhma = $ryhma;
     }
 
     public function __toString() {

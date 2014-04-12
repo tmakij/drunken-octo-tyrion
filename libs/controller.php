@@ -126,7 +126,10 @@ function getQueryString($string) {
 //Var 0: Uusisivu
 //Var 1: QueryString
 function redirect() {
-    $query = func_get_arg(1);
+    $query = null;
+    if (func_num_args() > 1) {
+        $query = func_get_arg(1);
+    }
     header('Location: ' . func_get_arg(0) . '.php' . (!empty($query) ? '?' . $query : ''));
     die();
 }

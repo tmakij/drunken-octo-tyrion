@@ -1,9 +1,9 @@
 <p>Hallinta</p>
 <form action="admin.php" method="POST">
-    Aseta käyttäjä <input type="number" required> ryhmään
-    <select>
+    Aseta käyttäjä <input type="text" name="kayttaja_nimi" required> ryhmään
+    <select name="ryhma">
         <option value="0">Viestikielto</option>
-        <option value="1">Pääkäyttäjä</option>
+        <option value="1">Ylläpitäjä</option>
         <option value="2">Käyttäjä</option>
     </select>
     <button type="submit" name="toiminto" value="aseta_kayttaja_ryhma">Ok</button>

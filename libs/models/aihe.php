@@ -10,7 +10,11 @@ final class Aihe extends IDobject {
     }
 
     public function poistaAihe($id) {
-        tallennaTietokantaan('DELETE FROM aihe WHERE nimi = ?', array($id));
+        try {
+            tallennaTietokantaan('DELETE FROM aihe WHERE id = ?', array($id));
+        } catch (PDOException $ex) {
+            return false;
+        }
         return true;
     }
 
