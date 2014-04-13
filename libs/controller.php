@@ -10,7 +10,8 @@ session_start();
         const session_viesti = 'viesti';
         const onnistumis_viesti = 'onnistuminen';
 
-//Asetaan muuttujia näkymille ja varmistetaan oikeudet sivulle.
+//Asetaan muuttujia näkymille ja varmistetaan oikeudet sivulle,
+//tullaan siirtämään data:an.
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
     $kirj = onKirjautunut() ? 'greet' : 'login';
@@ -134,6 +135,8 @@ function redirect() {
     die();
 }
 
+//Funktiot alla varmistavat annetut arvot, arrayssa on arvo ja sen virhe viesti.
+//Varmaankin poistetaan ennen lopullista palautusta.
 function varmistaArvotTyhjat($josOikein, $actions = array(), &$params = array()) {
     varmistaArvot($josOikein, function ($katottava) {
         return empty($katottava);

@@ -36,8 +36,9 @@ final class Kayttaja extends IDobject {
 
     public static function asetaRyhma($nimi, $ryhma) {
         try {
+            querySingle('SELECT id FROM kayttaja WHERE nimi = ?', array($nimi));
             tallennaTietokantaan('UPDATE kayttaja SET ryhma = ? WHERE nimi = ?', array($ryhma, $nimi));
-        } catch (PDOException $ex) {//Ei ole tämän nimistä käyttäjää.
+        } catch (DataBaseException $ex) {//Ei ole tämän nimistä käyttäjää.
             return false;
         }
         return true;
