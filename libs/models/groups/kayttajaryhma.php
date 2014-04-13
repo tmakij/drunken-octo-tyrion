@@ -19,7 +19,7 @@ abstract class Kayttajaryhma implements Ryhma {
     }
 
     protected function getSallitutSivut() {
-        return array('index.php', 'search.php', 'thread.php');
+        return array('index.php', 'search.php', 'thread.php', 'searchresults.php');
     }
 
     protected abstract function nimi();
