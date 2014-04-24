@@ -91,6 +91,8 @@ Voi antaa pääkäyttäjän oikeudet muille rekisteröityneille käyttäjille.
 \section{Käyttötapauskaavio}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{kayttotapauskaavio.png}
 
+\newpage
+
 \section{Järjestelmän tietosisältö}
 \subsection{Käsitekaavio}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{kasitekaavio.png}
@@ -98,8 +100,12 @@ Voi antaa pääkäyttäjän oikeudet muille rekisteröityneille käyttäjille.
 \subsection{Tietosisältö}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{tietosisalto.png}
 
+\newpage
+
 \section{Relaatiotietokantakaavio}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{relaatiotietokantakaavio.png}
+
+\newpage
 
 \section{Käyttöliittymä}
 \subsection{Sivukartta}
@@ -139,6 +145,8 @@ Scripti luo roskatietoa.
 Tällä hetkellä sitä kuitenkin tarvitaan, jos haluaa pääkäyttäjän oikeudet.
 drop-tables.sql tuhoaa tietokannan sisällön. Tämän jälkeen tulee create-tables.sql suorittaa uudelleen.
 
+\newpage
+
 \section{Käyttöohjeet}
 \begin{table}[ht]
 \caption{Foorumin testitunnukset}
@@ -147,9 +155,9 @@ drop-tables.sql tuhoaa tietokannan sisällön. Tämän jälkeen tulee create-tab
 \hline
 Nimi & Salasana & Rooli \\ [0.5ex]
 \hline
-Matti Meikäläinen&12345&Käyttäjä \\
-Maija Meikäläinen&54321&Ylläpitäjä \\
-Esimerkki Erkko&666&Viestikiellossa \\ [1ex]
+NormiKäyttäjä&12345&Käyttäjä \\
+Admin&admin&Ylläpitäjä \\
+Käyttäjäkiellossa&666&Viestikiellossa \\ [1ex]
 \hline
 \end{tabular}
 \end{table}
@@ -169,6 +177,8 @@ Haku vaatii kaikkien arvojen asettamista, eli sekä päiväys että käyttäjän
 Päiväyksen ekaan kenttään tulee aikaisempi päiväys toiseen myöhempi.
 Viestit palautetaan niiden väliltä.
 
+\newpage
+
 \section{Järjestelmän yleisrakenne}
 Järjestelmä on toteutettu MVC-mallin mukaisesti.
 Controlleri on kaikkien sivujen yhteinen, mutta jokaisella sivulla on omia toimintoja jotka kuuluvat niiden omille sivuille.
@@ -177,7 +187,7 @@ Controller luo pohjasivusta ilmentymän, johon liitetään kysytty sivu.
 Kaikki tietokantayhteydet ovat vain tietokantayhteys.php:ssa.
 Käyttäjäoikeudet ovat models/groups kansiossa.
 Tietokantamallit ovat models kansiossa.
-Istuntoa tallennetaan käyttäjän kirjautminen, virhe- ja onnistumisviesti.
+Istuntoon tallennetaan käyttäjän kirjautuminen, virhe- ja onnistumisviestit.
 Virhe- ja onnistumisviestit poistetaan istunnosta näytön jälkeen.
 Kirjautuminen säilyy niin kauan kunnes käyttäjä kirjautuu ulos tai selain poistaa sen.
 Malli luokat ovat toteutettu siten, että niitä luodaan staattisilla metodeilla.
@@ -185,6 +195,8 @@ Samoin toimii niiden muuttujien tallennus.
 Käyttäjäryhmät toteuttavat kaikki ryhma interfacen.
 Jokainen käyttäjäryhmä luokka toteuttaa käyttöoikeuksia virtuaalisilla metodeilla, sekä sivujen katsomisoikeudet arraylla.
 Sivujen katsomisoikeudet toimivat siten, että ellei erikseen ole ryhmälle lupaa nähdä sivua, sitä ei näytetä.
+
+\newpage
 
 \section{Käyttöliittymä ja järjestelmän komponentit}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{kayttoliittyma.png}
