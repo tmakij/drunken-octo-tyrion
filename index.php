@@ -6,9 +6,9 @@ require_once 'libs/models/viestiketju.php';
 
 $params = array('ketjut' => Viestiketju::getKetjut());
 
-if (getRequestMethod() === 'POST') {
+if (requestMethodIsPost()) {
     $id = getQueryString('delete');
-    if (!isset($id) || empty($id)) {
+    if (empty($id)) {
         if (onKirjautunut()) {
             kirjaaUlos();
         } else {
@@ -22,22 +22,18 @@ if (getRequestMethod() === 'POST') {
 naytaNakyma('index', $params);
 
 function kirjaudu() {
-    global $params;
-
-    varmistaArvotTyhjat(function(&$parameters = array()) {
+    if (arvotEivatOleTyhjia(array(
+                'tunnus' => 'Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.',
+                'salasana' => 'Kirjautuminen epäonnistui! Et antanut salasanaa.'
+            ))) {
         try {
             $tunnus = getPost('tunnus');
             $salasana = getPost('salasana');
             $kayttaja = Kayttaja::haeKayttaja($tunnus, $salasana);
-            if ($tunnus == $kayttaja->getNimi() && $salasana == $kayttaja->getSalasana()) {
-                kirjaaSisaan($kayttaja);
-                redirect('index');
-            }
+            kirjaaSisaan($kayttaja);
+            redirect('index');
         } catch (DataBaseException $ex) {
-            $parameters['virhe'] = 'Käyttäjtunnus tai salasana on väärä';
+            setSessionViesti('Käyttäjätunnus tai salasana on väärä');
         }
-    }, array(
-        'tunnus' => 'Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.',
-        'salasana' => 'Kirjautuminen epäonnistui! Et antanut salasanaa.'
-            ), $params);
+    }
 }

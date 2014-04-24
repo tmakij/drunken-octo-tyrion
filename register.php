@@ -3,14 +3,15 @@
 require_once 'libs/controller.php';
 $params = array();
 
-if (getRequestMethod() === 'POST') {
-    varmistaArvotTyhjat((function () {
+if (requestMethodIsPost()) {
+    if (arvotEivatOleTyhjia(array(
+                'rek_tunnus' => 'Rekisteröityminen epäonnistui! Et antanut tunnusta.',
+                'rek_salasana' => 'Rekisteröityminen epäonnistui! Et antanut Salasana.'))) {
         $tunnus = getPost('rek_tunnus');
         $salasana = getPost('rek_salasana');
-        $lupaus = getPost('rek_lupaus');
+        $lupaus = !!getPost('rek_lupaus');
         if ($lupaus) {
-            $tunnusPituus = strlen($tunnus);
-            if ($tunnusPituus < 32) {
+            if (stringPituusAlle($tunnus, 32)) {
                 if (Kayttaja::uusiKayttaja($tunnus, $salasana)) {
                     kirjaaSisaan(Kayttaja::haeKayttaja($tunnus, $salasana));
                 } else {
@@ -20,12 +21,9 @@ if (getRequestMethod() === 'POST') {
                 setSessionViesti('Tunnus on liian pitkä tai lyhyt: ' . $tunnusPituus);
             }
         } else {
-            setSessionViesti('Sinun pitää antaa lupaus');
+            setSessionViesti('Sinun pitää antaa lupaus, (' . $lupaus . ')');
         }
         redirect('index');
-    }), array(
-        'rek_tunnus' => 'Rekisteröityminen epäonnistui! Et antanut tunnusta.',
-        'rek_salasana' => 'Rekisteröityminen epäonnistui! Et antanut Salasana.'
-            ), $params);
+    }
 }
 naytaNakyma('register', $params);

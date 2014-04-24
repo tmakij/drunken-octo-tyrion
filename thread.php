@@ -4,17 +4,11 @@ require_once 'libs/controller.php';
 require_once 'libs/models/viestiketju.php';
 
 $params = array();
-lataaKetju();
 
-//redirect('index');
-
-function lataaKetju() {
-    global $params;
-    $ketjuID = getQueryString('id');
-    if (is_numeric($ketjuID)) {
-        $ketju = Viestiketju::getKetju($ketjuID);
-        $params['ketju'] = $ketju;
-        naytaNakyma('thread', $params);
-    }
-    setSessionViesti('Virhe ketjua, jolla on id ' . $ketjuID . ', ei ole olemassa');
+$ketjuID = getQueryString('id');
+if (arvotOvatNumerisiaQuery(array('id' => 'Virhe ketjua, jolla on id ' . $ketjuID . ', ei ole olemassa'))) {
+    $ketju = Viestiketju::getKetju($ketjuID);
+    $params['ketju'] = $ketju;
+    naytaNakyma('thread', $params);
 }
+redirect('index');

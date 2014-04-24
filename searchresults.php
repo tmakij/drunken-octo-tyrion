@@ -2,17 +2,17 @@
 
 require_once 'libs/controller.php';
 require_once 'libs/models/viesti.php';
+
 $params = array();
 
-$kayttajaNimi = getQueryString('nimi');
-$aihe = getQueryString('aihe');
-$aikaAlku = getQueryString('aika_alku');
-$aikaLoppu = getQueryString('aika_loppu');
-
-if (!empty($kayttajaNimi)) {
-    if (is_numeric($aihe)) {
+if (arvotEivatOleTyhjiaQuery(array('nimi' => 'Anna käyttäjän nimi'))) {
+    if (arvotOvatNumerisiaQuery(array('aihe' => 'Tuntematon aihe, id:' . $aihe))) {
+        $aikaAlku = getQueryString('aika_alku');
+        $aikaLoppu = getQueryString('aika_loppu');
         if (onPaivays($aikaAlku) && onPaivays($aikaLoppu)) {
             try {
+                $kayttajaNimi = getQueryString('nimi');
+                $aihe = getQueryString('aihe');
                 $params['viestit'] = Viesti::getTietytViestit($kayttajaNimi, $aihe, $aikaAlku, $aikaLoppu);
                 naytaNakyma('searchresults', $params);
             } catch (DataBaseException $ex) {
@@ -21,11 +21,7 @@ if (!empty($kayttajaNimi)) {
         } else {
             setSessionViesti('Epäkelpo aika: ' . $aikaAlku . ', ' . $aikaLoppu);
         }
-    } else {
-        setSessionViesti('Tuntematon aihe, id:' . $aihe);
     }
-} else {
-    setSessionViesti('Anna käyttäjän nimi');
 }
 redirect('search');
 

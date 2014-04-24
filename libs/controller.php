@@ -50,8 +50,8 @@ function getPost($var) {
     return filter_input(INPUT_POST, $var);
 }
 
-function getRequestMethod() {
-    return $_SERVER['REQUEST_METHOD'];
+function requestMethodIsPost() {
+    return $_SERVER['REQUEST_METHOD'] === 'POST';
 }
 
 function getSivu() {
@@ -135,23 +135,48 @@ function redirect() {
     die();
 }
 
-//Funktiot alla varmistavat annetut arvot, arrayssa on arvo ja sen virhe viesti.
-//Varmaankin poistetaan ennen lopullista palautusta.
-function varmistaArvotTyhjat($josOikein, $actions = array(), &$params = array()) {
-    varmistaArvot($josOikein, function ($katottava) {
-        return empty($katottava);
-    }, $actions, $params);
+function stringPituusAlle($string, $pituus) {
+    return strlen($string) < $pituus;
 }
 
-function varmistaArvot($josOikein, $check, $actions = array(), &$params = array()) {
-    foreach ($actions as $key => $value) {
-        $arvo = getPost($key);
+function tyhja($param) {
+    return empty($param);
+}
+
+        const isInt = 'is_int';
+        const onTyhja = 'tyhja';
+
+function arvotOvatNumerisiaQuery($params) {
+    return tarkistaArvotQuery(isInt, $params);
+}
+
+function arvotOvatNumerisia($params) {
+    return tarkistaArvotPost(isInt, $params);
+}
+
+function arvotEivatOleTyhjiaQuery($params) {
+    return tarkistaArvotQuery(onTyhja, $params);
+}
+
+function arvotEivatOleTyhjia($params) {
+    return tarkistaArvotPost(onTyhja, $params);
+}
+
+function tarkistaArvotPost($check, $params) {
+    return tarkistaArvotLahde($check, 'getPost', $params);
+}
+
+function tarkistaArvotQuery($check, $params) {
+    return tarkistaArvotLahde($check, 'getQueryString', $params);
+}
+
+function tarkistaArvotLahde($check, $lahde, $params) {
+    foreach ($params as $key => $value) {
+        $arvo = call_user_func($lahde, $key);
         if ($check($arvo)) {
             setSessionViesti($value);
-            return;
+            return false;
         }
     }
-    if (isset($josOikein)) {
-        $josOikein($params);
-    }
+    return true;
 }

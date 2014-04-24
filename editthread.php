@@ -7,14 +7,21 @@ require_once 'libs/models/viestiketju.php';
 $params = array();
 
 $ketjuId = getQueryString('id');
-if (isset($ketjuId) && is_numeric($ketjuId)) {
-    if (getRequestMethod() === 'POST') {
+if (arvotOvatNumerisiaQuery(array('id' => 'Tuntematon ketju: ' . $ketjuId))) {
+    if (requestMethodIsPost()) {
         $aihe = getPost('aihe');
-        $otsikko = getPost('otsikko');
-        if (isset($aihe) && is_numeric($aihe) && !empty($otsikko)) {
-            Viestiketju::paivitaKetju($ketjuId, $otsikko, $aihe);
-            redirect('index');
+        if (arvotOvatNumerisia(array('aihe' => 'Tuntematon aihe: ' . $aihe))) {
+            if (arvotEivatOleTyhjia(array('otsikko' => 'Anna otsikko'))) {
+                $otsikko = getPost('otsikko');
+                if (stringPituusAlle($otsikko, 32)) {
+                    Viestiketju::paivitaKetju($ketjuId, $otsikko, $aihe);
+                    redirect('index');
+                } else {
+                    setSessionViesti('Liian pitkä otsikko');
+                }
+            }
         }
+        redirect('editthread', 'id=' . $ketjuId);
     } else {
         try {
             $params['ketju'] = Viestiketju::getKetju($ketjuId);

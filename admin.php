@@ -7,7 +7,7 @@ require_once 'libs/models/groups/ryhma.php';
 
 $params = array();
 
-if (getRequestMethod() === 'POST') {
+if (requestMethodIsPost()) {
     switch (getPost('toiminto')) {
         case 'lisaa_aihe':
             lisaaAihe();
@@ -26,8 +26,8 @@ if (getRequestMethod() === 'POST') {
 naytaNakyma('admin', $params);
 
 function lisaaAihe() {
-    $aihe = getPost('uusi_aihe');
-    if (!empty($aihe)) {
+    if (arvotEivatOleTyhjia(array('uusi_aihe' => 'Anna aiheen nimi'))) {
+        $aihe = getPost('uusi_aihe');
         $pituus = strlen($aihe);
         if ($pituus < 31) {
             if (Aihe::uusiAihe($aihe)) {
@@ -38,38 +38,30 @@ function lisaaAihe() {
         } else {
             setSessionViesti('Aiheen nimi liian pitkä: ' . $pituus);
         }
-    } else {
-        setSessionViesti('Anna aiheen nimi');
     }
 }
 
 function poistaAihe() {
     $id = getPost('aihe');
-    if (is_numeric($id)) {
+    if (arvotOvatNumerisia(array('aihe' => 'Aihetta ei voida poistaa, id: ' . $id))) {
         if (Aihe::poistaAihe($id)) {
             setOnnistumisViesti('Aihe on poistettu');
         } else {
             setSessionViesti('Aihetta ei voida poistaa jos se on yhdenkään viestiketjun aihe');
         }
-    } else {
-        setSessionViesti('Aihetta ei voida poistaa, id: ' . $id);
     }
 }
 
 function asetaKayttajaRyhma() {
     $kayttajaNimi = getPost('kayttaja_nimi');
     $ryhma = getPost('ryhma');
-    if (is_numeric($ryhma)) {
-        if (!empty($kayttajaNimi)) {
+    if (arvotOvatNumerisia(array('ryhma' => 'Ryhmää ei ole olemassa: ' . $ryhma))) {
+        if (arvotEivatOleTyhjia(array('kayttaja_nimi' => 'Et antanut käyttäjän nimeä'))) {
             if (Kayttaja::asetaRyhma($kayttajaNimi, $ryhma)) {
                 setOnnistumisViesti('Käyttäjä ' . $kayttajaNimi . ' on asetettu ryhmaan ' . getRyhma($ryhma));
             } else {
                 setSessionViesti('Käyttäjää nimeltä ' . $kayttajaNimi . ' ei ole olemassa');
             }
-        } else {
-            setSessionViesti('Et antanut käyttäjän nimeä');
         }
-    } else {
-        setSessionViesti('Ryhmää ei ole olemassa: ' . $ryhma);
     }
 }
