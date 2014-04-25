@@ -6,8 +6,13 @@
             <p><?php echo getRyhmaID($viesti->getKirjoittaja()); ?></p>
         </div>
         <div class="sisalto">
-            <p><?php echo $viesti->getAika(); ?></p>
-            <p><?php echo sanitize($viesti->getSisalto()); ?></p>
+            <div>
+                <p><?php echo $viesti->getAika(); ?></p>
+                <p><?php echo sanitize($viesti->getSisalto()); ?></p>
+            </div>
+            <div class="toiminnot">
+                <button>Click</button>
+            </div>
         </div>
     </div>
     <?php
