@@ -10,6 +10,9 @@ if (arvotOvatNumerisiaQuery(array('id' => 'Virhe ketjua, jolla on id ' . $ketjuI
     $ketju = Viestiketju::getKetju($ketjuID);
     $params['ketju'] = $ketju;
     $params['viestit'] = $ketju->getViestit();
+    if (onKirjautunut()) {
+        lueKetju($ketjuID, getKirjautunut()->getId());
+    }
     naytaNakyma('thread', $params);
 }
 redirect('index');

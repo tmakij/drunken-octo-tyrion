@@ -25,7 +25,7 @@ CREATE TABLE viesti (
 );
 
 CREATE TABLE viesti_kayttaja (
-	kayttaja            INTEGER PRIMARY KEY NOT NULL REFERENCES kayttaja(id) ON DELETE RESTRICT ON UPDATE CASCADE,
-    viesti              INTEGER NOT NULL REFERENCES viesti(id) ON DELETE CASCADE ON UPDATE CASCADE,
-	onlukenut           BOOLEAN NOT NULL
+    id                  SERIAL PRIMARY KEY,
+	kayttaja            INTEGER NOT NULL REFERENCES kayttaja(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    viestiketju         INTEGER NOT NULL REFERENCES viestiketju(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

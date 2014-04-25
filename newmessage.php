@@ -14,12 +14,13 @@ if (requestMethodIsPost()) {
         $aihe = getPost('aihe');
         if (stringPituusAlle($otsikko, 32)) {
             if (arvotOvatNumerisia(array('aihe' => 'Tuntematon aihe: ' . $aihe))) {
-                Viestiketju::luoKetju($otsikko, $aihe, $sisalto, getKirjautunut()->getId());
+                $ketjuID = Viestiketju::luoKetju($otsikko, $aihe, $sisalto, getKirjautunut()->getId());
+                redirect('thread', 'id=' . $ketjuID);
             }
         } else {
             setSessionViesti('Otsikko on liian pitkä tai lyhyt: ' . $otsikkoPituus);
         }
-        redirect('index');
+        redirect('newmessage');
     }
 }
 $params['aiheet'] = Aihe::getAiheet();

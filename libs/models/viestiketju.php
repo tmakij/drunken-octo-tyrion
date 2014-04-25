@@ -48,6 +48,7 @@ final class Viestiketju extends IDobject {
                 , array($otsikko, $aihe));
         $id = $kysely->fetchColumn();
         Viesti::uusiViesti($id, $sisalto, $kayttajaID);
+        return $id;
     }
 
     public function getOtsikko() {

@@ -4,14 +4,14 @@ require_once 'libs/models/kayttaja.php';
 require_once 'libs/models/groups/ryhma.php';
 require_once 'libs/models/aihe.php';
 require_once 'libs/databaseexception.php';
+require_once 'libs/models/luetutviestit.php';
 session_start();
 
         const session_name = 'kayttaja';
         const session_viesti = 'viesti';
         const onnistumis_viesti = 'onnistuminen';
 
-//Asetaan muuttujia näkymille ja varmistetaan oikeudet sivulle,
-//tullaan siirtämään data:an.
+//Varmistetaan oikeudet sivulle, ja näytetään oikea sivu ja sen osat.
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
     $kirj = onKirjautunut() ? 'greet' : 'login';
@@ -23,6 +23,13 @@ function naytaNakyma($sivu, $data = array()) {
     }
     require 'views/base.php';
     die();
+}
+
+function onLuettuKetju($viestiKetjuID) {
+    if (onKirjautunut()) {
+        return kayttjaOnLukenutKetjun($viestiKetjuID, getKirjautunut()->getId());
+    }
+    return true;
 }
 
 function haeAihe($param) {
