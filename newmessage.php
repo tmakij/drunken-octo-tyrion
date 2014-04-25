@@ -22,4 +22,5 @@ if (requestMethodIsPost()) {
         redirect('index');
     }
 }
+$params['aiheet'] = Aihe::getAiheet();
 naytaNakyma('newmessage', $params);

@@ -23,7 +23,8 @@ final class Aihe extends IDobject {
     }
 
     public static function getAihe($id) {
-        $tulos = querySingle('SELECT nimi, id FROM aihe where id = ?', array($id));
+        $tulos = $id !== -1 ? querySingle('SELECT nimi, id FROM aihe where id = ?', array($id)) :
+                querySingle('SELECT nimi, id FROM aihe LIMIT 1', array());
         $aihe = new Aihe($tulos->id, $tulos->nimi);
         return $aihe;
     }

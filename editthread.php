@@ -22,13 +22,13 @@ if (arvotOvatNumerisiaQuery(array('id' => 'Tuntematon ketju: ' . $ketjuId))) {
             }
         }
         redirect('editthread', 'id=' . $ketjuId);
-    } else {
-        try {
-            $params['ketju'] = Viestiketju::getKetju($ketjuId);
-        } catch (DataBaseException $ex) {
-            setSessionViesti('Ei ole olemassa ketjua' . $ketjuId);
-            redirect('index');
-        }
+    }
+    $params['aiheet'] = Aihe::getAiheet();
+    try {
+        $params['ketju'] = Viestiketju::getKetju($ketjuId);
+    } catch (DataBaseException $ex) {
+        setSessionViesti('Ei ole olemassa ketjua' . $ketjuId);
+        redirect('index');
     }
 }
 

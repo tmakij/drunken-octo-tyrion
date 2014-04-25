@@ -9,6 +9,7 @@ $ketjuID = getQueryString('id');
 if (arvotOvatNumerisiaQuery(array('id' => 'Virhe ketjua, jolla on id ' . $ketjuID . ', ei ole olemassa'))) {
     $ketju = Viestiketju::getKetju($ketjuID);
     $params['ketju'] = $ketju;
+    $params['viestit'] = $ketju->getViestit();
     naytaNakyma('thread', $params);
 }
 redirect('index');

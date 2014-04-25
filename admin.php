@@ -6,7 +6,7 @@ require_once 'libs/models/kayttaja.php';
 require_once 'libs/models/groups/ryhma.php';
 
 $params = array();
-
+$params['aiheet'] = Aihe::getAiheet();
 if (requestMethodIsPost()) {
     switch (getPost('toiminto')) {
         case 'lisaa_aihe':

@@ -15,25 +15,8 @@ session_start();
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
     $kirj = onKirjautunut() ? 'greet' : 'login';
-    $kayttaja = onKirjautunut() ? getKirjautunut() : null;
-    $ryhma = getRyhmaID($kayttaja);
-    $aiheet = Aihe::getAiheet();
-    $ketju = isset($data->ketju) ? $data->ketju : null;
-    $aihe = isset($ketju) ? Aihe::getAihe($ketju->getAihe()) : Aihe::getAihe(1);
+    $ryhma = getRyhmaID(onKirjautunut() ? getKirjautunut() : null);
 
-    $varoitus = isset($data->virhe) ? $data->virhe : '';
-    if (onkoSessionViestia()) {
-        if (!empty($varoitus)) {
-            $varoitus .= '<br>';
-        }
-        $varoitus .= getSessionViesti();
-        poistaSessionViesti();
-    }
-    $onnistuminen = null;
-    if (onkoOnnistumisViesti()) {
-        $onnistuminen = getOnnistumisViesti();
-        poistaOnnistumisViesti();
-    }
     if (!$ryhma->paaseeSivulle(getSivu())) {
         setSessionViesti('Sinulla ei ole oikeuttaa nähdä sivua ' . getSivu());
         redirect('index');
@@ -42,8 +25,12 @@ function naytaNakyma($sivu, $data = array()) {
     die();
 }
 
+function haeAihe($param) {
+    return !empty($param) ? Aihe::getAihe($param->getAihe()) : Aihe::getAihe(-1);
+}
+
 function getRyhmaID($kayttaja) {
-    return getRyhma($kayttaja == null ? -1 : $kayttaja->getRyhma());
+    return getRyhma($kayttaja === null ? -1 : $kayttaja->getRyhma());
 }
 
 function getPost($var) {
@@ -91,16 +78,12 @@ function setOnnistumisViesti($param) {
     $_SESSION[onnistumis_viesti] = $param;
 }
 
-function onkoOnnistumisViesti() {
+function onOnnistumisViesti() {
     return isset($_SESSION[onnistumis_viesti]);
 }
 
-function poistaOnnistumisViesti() {
-    unset($_SESSION[onnistumis_viesti]);
-}
-
 function getOnnistumisViesti() {
-    return $_SESSION[onnistumis_viesti];
+    return getSession(onnistumis_viesti);
 }
 
 //Virheviestintään
@@ -108,17 +91,22 @@ function setSessionViesti($param) {
     $_SESSION[session_viesti] = $param;
 }
 
-function onkoSessionViestia() {
+function onSessionViesti() {
     return isset($_SESSION[session_viesti]);
 }
 
 function getSessionViesti() {
-    return $_SESSION[session_viesti];
+    return getSession(session_viesti);
 }
 
-function poistaSessionViesti() {
-    unset($_SESSION[session_viesti]);
+//Yhteinen getSession
+function getSession($param) {
+    $viesti = $_SESSION[$param];
+    unset($_SESSION[$param]);
+    return $viesti;
 }
+
+//
 
 function getQueryString($string) {
     return filter_input(INPUT_GET, $string);

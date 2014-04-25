@@ -11,14 +11,14 @@
     <body>
         <div class="sivu">
             <!-- Viesti alue alkaa -->
-            <?php if (!empty($varoitus)): ?>
-                <div class="alert alert-danger">Virhe: <?php echo sanitize($varoitus); ?></div>
+            <?php if (onSessionViesti()): ?>
+                <div class="alert alert-danger">Virhe: <?php echo sanitize(getSessionViesti()); ?></div>
                 <br>
                 <br>
             <?php endif; ?>
-            <?php if (!empty($onnistuminen)): ?>
+            <?php if (onOnnistumisViesti()): ?>
                 <div class="alert alert-success">
-                    <?php echo sanitize($onnistuminen); ?>
+                    <?php echo sanitize(getOnnistumisViesti()); ?>
                 </div>
             <?php endif; ?>
             <!-- Viesti alue loppuu -->
@@ -44,7 +44,7 @@
             <br>
             <br>
             <!-- Sivukohtainen alue alkaa -->
-            <?php require_once 'views/' . $sivu . '.php'; ?>
+            <?php require 'views/' . $sivu . '.php'; ?>
             <!-- Sivukohtainen alue loppuu -->
         </div>
     </body>
