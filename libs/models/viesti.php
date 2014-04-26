@@ -2,6 +2,7 @@
 
 require_once 'libs/models/idobject.php';
 require_once 'libs/models/kayttaja.php';
+require_once 'libs/models/luetutviestit.php';
 
 final class Viesti extends IDobject {
 
@@ -46,6 +47,15 @@ final class Viesti extends IDobject {
     public static function uusiViesti($ketju, $sisalto, $kayttaja) {
         tallennaTietokantaan('INSERT INTO viesti (sisalto, aika, kirjoittaja, viestiketju) VALUES (?, current_timestamp, ?, ?)'
                 , array($sisalto, $kayttaja, $ketju));
+    }
+
+    public static function haeViesti($id) {
+        $tulos = querySingle('SELECT id, kirjoittaja, sisalto, aika FROM viesti WHERE id = ?', array($id));
+        return new Viesti($tulos->id, $tulos->kirjoittaja, $tulos->sisalto, $tulos->aika);
+    }
+
+    public static function muutaViestia($id, $sisalto) {
+        tallennaTietokantaan('UPDATE viesti SET sisalto = ? WHERE id = ?', array($sisalto, $id));
     }
 
     public function getKirjoittaja() {

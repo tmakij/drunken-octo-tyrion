@@ -3,5 +3,5 @@
     <br>
     Aihe:<?php require 'views/aiheet.php'; ?>
     <br>
-    <button type="submit" id="luo">Lähetä</button>
+    <button type="submit">Tallenna</button>
 </form>

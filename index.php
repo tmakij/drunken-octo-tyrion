@@ -14,10 +14,10 @@ if (requestMethodIsPost()) {
         } else {
             kirjaudu();
         }
-    } else {
+    } else if (onKirjautunut() && getRyhmaID(getKirjautunut()->getRyhma())->voiHallita()) {
         Viestiketju::poistaKetju($id);
-        redirect('index');
     }
+    redirect('index');
 }
 naytaNakyma('index', $params);
 
