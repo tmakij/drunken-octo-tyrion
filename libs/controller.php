@@ -14,7 +14,6 @@ session_start();
 //Varmistetaan oikeudet sivulle, ja näytetään oikea sivu ja sen osat.
 function naytaNakyma($sivu, $data = array()) {
     $data = (object) $data;
-    $kirj = onKirjautunut() ? 'greet' : 'login';
     $ryhma = getRyhmaID(onKirjautunut() ? getKirjautunut() : null);
 
     if (!$ryhma->paaseeSivulle(getSivu())) {
@@ -23,6 +22,10 @@ function naytaNakyma($sivu, $data = array()) {
     }
     require 'views/base.php';
     die();
+}
+
+function saaMuokataViestiä($kayttaja, $viesti) {
+    return getRyhmaID($kayttaja)->voiHallita() || $kayttaja->getId() === $viesti->getKirjoittajaID();
 }
 
 function onLuettuKetju($viestiKetjuID) {
@@ -55,14 +58,6 @@ function getSivu() {
 function sanitize($param) {
     return htmlspecialchars($param, ENT_QUOTES, 'UTF-8');
 }
-
-/* function getRequestMethod() {
-  return filter_input(INPUT_SERVER, 'REQUEST_METHOD');
-  }
-
-  function getSivu() {
-  return basename(filter_input(INPUT_SERVER, 'PHP_SELF'));
-  } */
 
 function kirjaaSisaan($kayttaja) {
     $_SESSION[session_name] = $kayttaja;
@@ -133,6 +128,8 @@ function redirect() {
 function stringPituusAlle($string, $pituus) {
     return strlen($string) < $pituus;
 }
+
+// Loput ovat arvojen tarkistukseen, sekä virheviestien asettamiseen:
 
 function tyhja($param) {
     return empty($param);

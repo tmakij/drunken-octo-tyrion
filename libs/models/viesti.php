@@ -34,7 +34,6 @@ final class Viesti extends IDobject {
         return $viestit;
     }
 
-    //. '(SELECT id FROM viestiketju WHERE viesti.viestiketju = viestiketju.id and viestiketju.aihe = ?) as ViestiKetjuAihe '
     public static function getTietytViestit($kayttajaNimi, $aihe, $aikaAlku, $aikaLoppu) {
         $tulos = queryArray('SELECT viesti.id, kirjoittaja, sisalto, aika FROM viesti, viestiketju, '
                 . '(SELECT id FROM kayttaja WHERE lower(nimi) LIKE (lower(\'%\' || ? || \'%\'))) AS KayttajaID '
@@ -51,6 +50,10 @@ final class Viesti extends IDobject {
 
     public function getKirjoittaja() {
         return Kayttaja::haeKayttajaID($this->kirjoittaja);
+    }
+
+    public function getKirjoittajaID() {
+        return $this->kirjoittaja;
     }
 
     public function getSisalto() {

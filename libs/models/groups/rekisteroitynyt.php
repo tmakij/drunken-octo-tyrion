@@ -13,7 +13,7 @@ class Rekisteroitynyt extends Kayttajaryhma {
     }
 
     protected function getSallitutSivut() {
-        return array_merge(parent::getSallitutSivut(), array('response.php', 'newmessage.php'));
+        return array_merge(parent::getSallitutSivut(), array('response.php', 'newmessage.php', 'editpost.php'));
     }
 
 }

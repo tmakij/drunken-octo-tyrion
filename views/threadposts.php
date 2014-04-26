@@ -10,9 +10,11 @@
                 <p><?php echo $viesti->getAika(); ?></p>
                 <p><?php echo sanitize($viesti->getSisalto()); ?></p>
             </div>
-            <div class="toiminnot">
-                <button>Click</button>
-            </div>
+            <?php if (onKirjautunut() && saaMuokataViestiä(getKirjautunut(), $viesti)): ?>
+                <div class="toiminnot">
+                    <a href="editpost.php?id=<?php echo $viesti->getId(); ?>">Edit</a>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <?php

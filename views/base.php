@@ -12,7 +12,9 @@
         <div class="sivu">
             <!-- Viesti alue alkaa -->
             <?php if (onSessionViesti()): ?>
-                <div class="alert alert-danger">Virhe: <?php echo sanitize(getSessionViesti()); ?></div>
+                <div class="alert alert-danger">
+                    Virhe: <?php echo sanitize(getSessionViesti()); ?>
+                </div>
                 <br>
                 <br>
             <?php endif; ?>
@@ -23,7 +25,7 @@
             <?php endif; ?>
             <!-- Viesti alue loppuu -->
             <!-- Tervehdys alue alkaa -->
-            <?php require 'views/' . $kirj . '.php'; ?>
+            <?php require 'views/' . (onKirjautunut() ? 'greet' : 'login') . '.php'; ?>
             <!-- Tervehdys alue loppuu -->
             <br>
             <br>
