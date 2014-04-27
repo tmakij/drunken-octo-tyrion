@@ -23,23 +23,24 @@ Aiheena on luoda keskustelufoorumi.
 Foorumissa käyttäjät voivat kirjoittaa viestejä ja lukea muiden kirjoittamia viestejä.
 Viestit liittyvät viestiketjuihin, joilla on otsikoita.
 Käyttäjät voivat luoda viestiketjuja.
-Viestejä tulee voida myös etsiä otsikon, iän tai kirjoittajan perusteella. Käyttäjillä on yksityiset tunnukset, joilla he voivat kirjautua sisään.
-Tunnukset tarvitaan, jotta voi kirjoittaa viestin foorumille.
+Viestejä voi etsiä viestin ajan, aiheen ja kirjoittajan perusteella.
+Käyttäjillä on yksityiset tunnukset, joilla he voivat kirjautua sisään.
+Tunnukset tarvitaan, jotta voi kirjoittaa viestejä foorumille.
 Jokaisella käyttäjätunnuksella voi kirjoittaa viestejä.
-Pääkäyttäjällä on oikeus viedä käyttäjän oikeus kirjoittaa viestejä, sekä poistaa viestejä, että viestiketjuja.
+Pääkäyttäjällä on oikeus viedä käyttäjän oikeus kirjoittaa viestejä, sekä muokkaa viestejä, että viestiketjuja sekä poistaa jälkimmäisiä.
 \indent
 
 Foorumin tarkoitus on edistää sosiaalista kanssakäyntiä ihmisten välillä, auttaa samanhenkisiä ihmisiä löytämään toisensa ja antaa ihmisten sekä anonyymisti että toisia kunnioittavasti esittää mielipiteitään internetin välityksellä.
 \indent
 
-Järjestelmän tavoitteet ovat mahdollistaa viestien kirjoitus ja luku, käyttäjätunnusten luonti, käyttöoikeus ryhmien olemassaolo sekä mahdollistaa nopea viestin haku.
+Järjestelmän tavoitteet ovat mahdollistaa viestien kirjoitus ja luku, käyttäjätunnusten luonti, käyttöoikeusryhmien olemassaolo sekä mahdollistaa nopea viestin haku.
 \indent
 
 Järjestelmä pyörii tktl:n users palvelimella, apachea käyttäen.
 Se vaatii PHP-tuen.
 Käyttäjän selaimelta ei edellytetä tukea javascriptille, mutta HTML5 tuki edellytetään.
 Järjestelmä edellyttää PostgreSQL tietokantaa.
-On todennäköistä, että, rajapintoja hyödyntäen, tietokanta tulee olemaan silti helppo vaihtaa.
+On todennäköistä, että, rajapintoja hyödyntäen, tietokanta tulee olemaan jokseenkin helppo vaihtaa.
 
 \newpage
 \section{Yleiskuva järjestelmästä}
@@ -63,6 +64,7 @@ Voi kirjautua foorumiin.
 
 \subsection{Rekisteröitynyt käyttäjä}
 Rekisteröitynyt käyttäjä on henkilö, joka on rekisteröinyt tunnuksen foorumille.
+Rekisteröitynyt käyttäjä on myös jokamies.
 
 \begin{itemize}
 \item
@@ -71,6 +73,8 @@ Rekisteröitynyt käyttäjä on henkilö, joka on rekisteröinyt tunnuksen fooru
     Voi vastata olemassa olevaan viestiketjuun.
 \item
     Näkee kirjoitukset, joita henkilö ei ole vielä lukenut.
+\item
+    Voi muokkaa omia viestejään.
 \end{itemize}
 
 \subsection{Pääkäyttäjä}
@@ -79,12 +83,19 @@ Tämä on erityisryhmä ja on oletusarvoisesti vain foorumin perustajalla. Pää
 
 \begin{itemize}
 \item
-Voi poistaa foorumille kirjoitetun viestin tai viestiketjun.
+Voi muokkaa viestiketjuja sekä kaikkia viestejä.
+\item
+Voi poistaa foorumille kirjoitetun viestiketjun.
 \item
 Voi laittaa eston käyttäjälle, jolloin tämä ei voi enää kirjoittaa uusia viestejä foorumille.
 \item
 Voi antaa pääkäyttäjän oikeudet muille rekisteröityneille käyttäjille.
 \end{itemize}
+
+\subsection{Viestikiellossa}
+Viestikieltoon päätyy, jos pääkäyttäjä asettaa tämän siihen.
+Tällöin käyttäjä ei voi enää luoda uusia viestiketjuja, vastata olemassa oleviin ketjuihin tai muokata omia viestejään.
+Pääkäyttäjä voi myös palauttaa nämä oikeudet.
 
 \newpage
 
@@ -138,12 +149,13 @@ Voi antaa pääkäyttäjän oikeudet muille rekisteröityneille käyttäjille.
 Foorumi on testattu PostgreSQL tietokannalla 8.4 sekä php 5.3:lla.
 Foorumin asennus toteutetaan kopioimalla tiedostot johonkin näkyvään paikkaan, esimerkiksi kansioon htdocs.
 Mitään salasanoja ei travitse laittaa, vaan users -palvelimella yhteys muodostetaan automaattisesti.
+\indent
+
 Kansiossa foorumi/sql on sql scriptit, joista osa pitää suorittaa ennen palvelimen käyttöönottoa.
-create-tables.sql on pakollinen, jota ilman foorumi ei toimi lainkaan.
-add-test-data.sql on valinnainen, nopeaa testausta varten.
-Scripti luo roskatietoa.
-Tällä hetkellä sitä kuitenkin tarvitaan, jos haluaa pääkäyttäjän oikeudet.
-drop-tables.sql tuhoaa tietokannan sisällön. Tämän jälkeen tulee create-tables.sql suorittaa uudelleen.
+create-tables.sql tulee suorittaa ensin.
+add-test-data.sql vaaditaan, sillä foorumia ei ole testattu siten, että siinä ei ole mitään dataa.
+Tämä scripti luo roskatietoa.
+drop-tables.sql tuhoaa tietokannan sisällön. Tämän jälkeen create-tables.sql tulee suorittaa uudelleen.
 
 \newpage
 
@@ -164,17 +176,29 @@ Käyttäjäkiellossa&666&Viestikiellossa \\ [1ex]
 
 Kirjautuminen tapahtuu laittamalla tunnukset sivun yläosassa olevaan kirjautumislaatikkoon.
 Kirjauduttua sisälle, käyttäjätunnuksen ja roolin tulisi näkyä kirjautumislaatikon tilalla.
+\indent
+
 Tällä hetkellä vain viestiketjuilla on täysi CRUD setti.
 Niitä voi katsoa kuka tahansa ja niitä voivat rekisteröityneet käyttäjät luoda.
 Ylläpitäjä voi muokata viestiketjujen aihetta tai otsikkoa.
 Ylläpitäjä voi myös poistaa kokonaisia ketjuja.
 Vaihtoehdot siihen tulevat viestikejun oikealle puolelle etusivulla.
 Viestiketjuihin voi myös vastata.
+\indent
+
 Ylläpitäjä voi määritellä uusia aiheita ja poistaa vanhoja, olettaen että niihin ei liity viestiketjuja.
-Hän voi myös asettaa käyttäjiä eriryhmiin.
+\indent
+
+Ylläpitäjä voi myös asettaa käyttäjiä eriryhmiin.
 Rekisteröitymällä pääsee käyttäjäryhmään.
-Haku vaatii kaikkien arvojen asettamista, eli sekä päiväys että käyttäjän nimi tulee olla.
-Päiväyksen ekaan kenttään tulee aikaisempi päiväys toiseen myöhempi.
+\indent
+
+Viestien muokkaus tapahtuu painamalla viestin oikealla alhaalla olevaa muokkaa painiketta.
+\indent
+
+Viestien haku vaatii kaikkien arvojen asettamista, eli sekä päiväys että käyttäjän nimi tulee olla.
+Käyttäjän nimestä voi kirjoittaa vain osan ja senkin riippumatta isoista tai pienistä kirjaimista.
+Päiväyksen ensimmäiseen kenttään tulee aikaisempi päiväys, toiseen myöhempi.
 Viestit palautetaan niiden väliltä.
 
 \newpage
@@ -182,17 +206,23 @@ Viestit palautetaan niiden väliltä.
 \section{Järjestelmän yleisrakenne}
 Järjestelmä on toteutettu MVC-mallin mukaisesti.
 Controlleri on kaikkien sivujen yhteinen, mutta jokaisella sivulla on omia toimintoja jotka kuuluvat niiden omille sivuille.
-Yleisesti yksittäisiltä sivuilta siirretään tieto array:ssa controllerille, mutta tällä hetkellä osa datasta luodaan vasta kontrollerissa.
+Yleisesti yksittäisiltä sivuilta siirretään tieto array:ssa controllerille.
 Controller luo pohjasivusta ilmentymän, johon liitetään kysytty sivu.
+\indent
+
 Kaikki tietokantayhteydet ovat vain tietokantayhteys.php:ssa.
-Käyttäjäoikeudet ovat models/groups kansiossa.
 Tietokantamallit ovat models kansiossa.
+Malli luokat ovat toteutettu siten, että niitä luodaan staattisilla metodeilla.
+Samoin toimii niiden tallennus.
+\indent
+
 Istuntoon tallennetaan käyttäjän kirjautuminen, virhe- ja onnistumisviestit.
 Virhe- ja onnistumisviestit poistetaan istunnosta näytön jälkeen.
 Kirjautuminen säilyy niin kauan kunnes käyttäjä kirjautuu ulos tai selain poistaa sen.
-Malli luokat ovat toteutettu siten, että niitä luodaan staattisilla metodeilla.
-Samoin toimii niiden muuttujien tallennus.
-Käyttäjäryhmät toteuttavat kaikki ryhma interfacen.
+\indent
+
+Käyttäjäoikeudet ovat models/groups kansiossa.
+Käyttäjäryhmät toteuttavat kaikki ryhma -interfacen.
 Jokainen käyttäjäryhmä luokka toteuttaa käyttöoikeuksia virtuaalisilla metodeilla, sekä sivujen katsomisoikeudet arraylla.
 Sivujen katsomisoikeudet toimivat siten, että ellei erikseen ole ryhmälle lupaa nähdä sivua, sitä ei näytetä.
 
@@ -200,5 +230,29 @@ Sivujen katsomisoikeudet toimivat siten, että ellei erikseen ole ryhmälle lupa
 
 \section{Käyttöliittymä ja järjestelmän komponentit}
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{kayttoliittyma.png}
+
+\newpage
+
+\section{Testaus, tunnetut bugit ja puutteet, jatkokehitysideat}
+Tunnettuja bugeja ei ole.
+Foorumi on hyvin yksinkertainen, joten puutteet ovat ominaisuuksia.
+Ohjelmistossa ei ole automaattista testausta, vaan kaikkea on testattu käsin.
+Jatkokehitysideoita:
+\begin{itemize}
+\item
+Viestien poisto
+\item
+Viestien haku ilman että kaikkia kenttiä tarvitsee täyttää
+\item
+Alemman pääkäyttäjän rooli, voisi esimerkiksi vain poistaa ja muokkaa viestejä
+\item
+Viestiketjujen lukitseminen
+\item
+Käyttäjän omat sivut, esimerkiksi yhteystiedot ja aikavyöhyke
+\item
+Yksityiset viestit
+\item
+Viestit omiin "kansioihin" aiheiden perusteella, helpottamaan selausta
+\end{itemize}
 
 \end{document}

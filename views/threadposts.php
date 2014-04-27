@@ -12,7 +12,7 @@
             </div>
             <?php if (onKirjautunut() && saaMuokataViestiä(getKirjautunut(), $viesti)): ?>
                 <div class="toiminnot">
-                    <a href="editpost.php?id=<?php echo $viesti->getId(); ?>">Edit</a>
+                    <a href="editpost.php?id=<?php echo $viesti->getId(); ?>">Muokkaa</a>
                 </div>
             <?php endif; ?>
         </div>
