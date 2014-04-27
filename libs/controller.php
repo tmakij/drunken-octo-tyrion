@@ -1,5 +1,6 @@
 <?php
 
+error_reporting(E_ALL);
 require_once 'libs/models/kayttaja.php';
 require_once 'libs/models/groups/ryhma.php';
 require_once 'libs/models/aihe.php';
@@ -135,7 +136,11 @@ function tyhja($param) {
     return empty($param);
 }
 
-        const isInt = 'is_int';
+function eiInteger($param) {
+    return !ctype_digit($param);
+}
+
+        const isInt = 'eiInteger';
         const onTyhja = 'tyhja';
 
 function arvotOvatNumerisiaQuery($params) {
@@ -165,7 +170,8 @@ function tarkistaArvotQuery($check, $params) {
 function tarkistaArvotLahde($check, $lahde, $params) {
     foreach ($params as $key => $value) {
         $arvo = call_user_func($lahde, $key);
-        if ($check($arvo)) {
+        $res = call_user_func($check, $arvo);
+        if ($res) {
             setSessionViesti($value);
             return false;
         }

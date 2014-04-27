@@ -14,7 +14,7 @@ if (requestMethodIsPost()) {
         } else {
             kirjaudu();
         }
-    } else if (onKirjautunut() && getRyhmaID(getKirjautunut()->getRyhma())->voiHallita()) {
+    } else if (onKirjautunut() && getRyhmaID(getKirjautunut())->voiHallita()) {
         Viestiketju::poistaKetju($id);
     }
     redirect('index');

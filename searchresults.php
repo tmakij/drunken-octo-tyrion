@@ -6,13 +6,13 @@ require_once 'libs/models/viesti.php';
 $params = array();
 
 if (arvotEivatOleTyhjiaQuery(array('nimi' => 'Anna käyttäjän nimi'))) {
+    $aihe = getQueryString('aihe');
     if (arvotOvatNumerisiaQuery(array('aihe' => 'Tuntematon aihe, id:' . $aihe))) {
         $aikaAlku = getQueryString('aika_alku');
         $aikaLoppu = getQueryString('aika_loppu');
         if (onPaivays($aikaAlku) && onPaivays($aikaLoppu)) {
             try {
                 $kayttajaNimi = getQueryString('nimi');
-                $aihe = getQueryString('aihe');
                 $params['viestit'] = Viesti::getTietytViestit($kayttajaNimi, $aihe, $aikaAlku, $aikaLoppu);
                 naytaNakyma('searchresults', $params);
             } catch (DataBaseException $ex) {
@@ -26,5 +26,7 @@ if (arvotEivatOleTyhjiaQuery(array('nimi' => 'Anna käyttäjän nimi'))) {
 redirect('search');
 
 function onPaivays($param) {
-    return DateTime::createFromFormat('y-m-d', $param) !== null;
+    $dt = DateTime::createFromFormat("Y-m-d", $param);
+    return $dt !== false && !array_sum($dt->getLastErrors());
+    //return DateTime::createFromFormat('y-m-d', $param);
 }
